@@ -39,5 +39,5 @@ script:
   --non-interactive && grails prod maven-deploy --repository=$MAVEN_REPO --non-interactive
 env:
   global:
-  - secure: Daso6Ixs2VQ76eLBtnF9KMUU1xMCSuW5NcnGBBEZ9t3Z/V5sq19GsX7+iEmohC6MnIcA/U7Sf1WdIqUn9AecPPqA0WqHiHFdWvo8hlLLqX1viJkWD/i0gYNsbbPp0QaaZyTXtnrzTtTNWvsE+VUG31Yg0N8leL0CfBMCfxgaLIU=
-  - secure: O31H2yzzFx/m0+QBhdhYhp60vCD94u1a5n1yTkffOt3SSm12Cw/yjz9yvVJ01551NA3JW3NKNBzgW12z20FC5Pfqme3fjRiCyKa78AW3xEaZ7grF9y6G6OFuma3v4/iYrz7lNnXeDZNg2PQUXO3OpD314cHFBO4c7Ke2pv90yPc=
+  - secure: clGZChfqh9Js7DVIup2R3n6MwZP2VbuapJ4ZdpLCYqmYn8P2pJLjtBoJaPvd5X31+a282zls+sAMze0wyKUZPbdFmwyGjge/CuLlyJpLWlAxUMb5dXDMRka9EJ8GsqF1rCYKb8MLxs4BkEy7x5p4o+MxouPYGLk2cV1rw7sdi6A=
+  - secure: IQKM5iwcHsOBpEqgoZKyJsh30anSFUaf30wQAUw2n+CFQFnyoKFTcO7VAQI+h5iGB7rcNyCk7rBWx+LwVR/zTL10UnhIoRO+J6JxpGeCgzGg45HdIcrkhaRPGgdJEbC+VKn5h444MdTIRYoLCWS9H61cl45vnRkDsSDhv80old0=
