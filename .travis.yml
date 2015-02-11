@@ -2,11 +2,9 @@ language: groovy
 sudo: false
 jdk:
 - oraclejdk7
-
 branches:
   only:
   - master
-
 before_install:
 - export TZ=Australia/Canberra
 - date
@@ -16,25 +14,30 @@ before_install:
 - ~/install_gvm.sh
 - echo "gvm_auto_answer=true" > ~/.gvm/etc/config
 - source ~/.gvm/bin/gvm-init.sh
-- GRAILS_VERSION=`grep '^\s*app.grails.version' application.properties | sed -e 's/^\s*app\.grails\.version=//g' | tr -d "\r"`
+- GRAILS_VERSION=`grep '^\s*app.grails.version' application.properties | sed -e 's/^\s*app\.grails\.version=//g'
+  | tr -d "\r"`
 - echo "GRAILS_VERSION:$GRAILS_VERSION"
 - gvm install grails $GRAILS_VERSION || true
-
 before_script:
-- GRAILS_VERSION_NUMBER=`echo $GRAILS_VERSION | sed -e 's/\.[0-9]*$//g' -e 's/\.//g' | tr -d "\r"`
+- GRAILS_VERSION_NUMBER=`echo $GRAILS_VERSION | sed -e 's/\.[0-9]*$//g' -e 's/\.//g'
+  | tr -d "\r"`
 - echo "GRAILS_VERSION_NUMBER:$GRAILS_VERSION_NUMBER"
 - GRAILS_SETTINGS_FILE="travis_grails_settings_new.groovy"
-- if [ "$GRAILS_VERSION_NUMBER" -lt "23" ]; then GRAILS_SETTINGS_FILE="travis_grails_settings_old.groovy"; fi;
+- if [ "$GRAILS_VERSION_NUMBER" -lt "23" ]; then GRAILS_SETTINGS_FILE="travis_grails_settings_old.groovy";
+  fi;
 - echo "GRAILS_SETTINGS_FILE:$GRAILS_SETTINGS_FILE"
 - mkdir -p ~/.grails; wget -q -O ~/.grails/settings.groovy https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/$GRAILS_SETTINGS_FILE
 - MAVEN_REPO="ala-repo-snapshot"
-- APP_VERSION=`grep '^\s*def\s*version' *GrailsPlugin.groovy | sed -e 's/^.*= *"//g' | sed -e 's/".*$//g' | tr -d "\r"`
-- echo $APP_VERSION | grep -q "\-SNAPSHOT"; if [ "$?" = "1" ]; then MAVEN_REPO="ala-repo-release"; fi;
+- APP_VERSION=`grep '^\s*def\s*version' *GrailsPlugin.groovy | sed -e 's/^.*= *"//g'
+  | sed -e 's/".*$//g' | tr -d "\r"`
+- echo $APP_VERSION | grep -q "\-SNAPSHOT"; if [ "$?" = "1" ]; then MAVEN_REPO="ala-repo-release";
+  fi;
 - echo "APP_VERSION:$APP_VERSION"
 - echo "MAVEN_REPO:$MAVEN_REPO"
-
 script:
-- grails clean && grails refresh-dependencies --non-interactive && grails prod maven-install --non-interactive && grails prod maven-deploy --repository=$MAVEN_REPO --non-interactive
-
+- grails clean && grails refresh-dependencies --non-interactive && grails prod maven-install
+  --non-interactive && grails prod maven-deploy --repository=$MAVEN_REPO --non-interactive
 env:
   global:
+  - secure: KMD8FpHuJEMFF8oEysaMnLREJoSHrwk9j8UHydD1cWs037RGUeRSN/cHdcnh5Hg14ZakfGHRc6LexO5Ca/qYFGRhunhDKEs/CqJeOprizi6ntQ3rn4anMUpETz/w4U05EWRByRrbgLm0nOJoYwTuFzvVGGzJnKsT9w71SjzFgUo=
+  - secure: IvT1LK3jskqg8MI+eF2p2P55BK2WiRpvkCHZIIe2tnQ5fJbeMSRfIYNzKL3vfGVW8jRw1zeIs+d+SdsAFDQzJl9eYLjOmvQ8DLIXEFFdWZPzodR5e7V/BfR5V0w1c60cM/xzwGDySCMkrLU6VNQUD8XLhKmUQ9VEaOz000PaL/w=
