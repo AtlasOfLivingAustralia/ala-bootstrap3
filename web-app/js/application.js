@@ -1,7 +1,7 @@
 // initialise plugins
 $(function(){
     // autocomplete on navbar search input
-    $("form#search-form-2011 input#search-2011, form#search-inpage input#search, input#search-2013 input#general-search").autocomplete('http://bie.ala.org.au/search/auto.jsonp', {
+    $("input.general-search").autocomplete('http://bie.ala.org.au/ws/search/auto.jsonp', {
         extraParams: {limit: 100},
         dataType: 'jsonp',
         parse: function(data) {
@@ -26,7 +26,17 @@ $(function(){
         max: 10,
         selectFirst: false
     });
-
+    ////action on hitting enter
+    //$("input.general-search").keypress(function(e) {
+    //    if(e.which == 13) {
+    //        var searchTerm = $("input.general-search").val().trim();
+    //        alert("Search term: " + searchTerm);
+    //        if(searchTerm != ""){
+    //            console.log("redirecting to http://bie.ala.org.au/search?q=" + searchTerm);
+    //            window.location = "http://bie.ala.org.au/search?q=" + searchTerm;
+    //        }
+    //    }
+    //});
     // Mobile/desktop toggle
     // TODO: set a cookie so user's choice is remembered across pages
     var responsiveCssFile = $("#responsiveCss").attr("href"); // remember set href
