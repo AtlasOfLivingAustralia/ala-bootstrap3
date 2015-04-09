@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="app.version" content="${g.meta(name:'app.version')}"/>
@@ -23,7 +23,7 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body>
+<body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 
 <!-- Header -->
 <hf:banner logoutUrl="${g.createLink(controller:"logout", action:"logout", absolute: true)}" />

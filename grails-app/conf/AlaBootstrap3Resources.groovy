@@ -6,9 +6,8 @@ modules = {
     }
 
     ala {
-        dependsOn 'bootstrap'
+        dependsOn 'bootstrap', 'font-awesome'
         resource url: [ dir:'css', file: 'my-styles.css', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
-        resource url:'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'
     }
 
     core {
@@ -31,4 +30,10 @@ modules = {
         dependsOn 'jquery'
         resource url: [ dir:'js', file: 'jquery-migrate-1.2.1.min.js', plugin:'ala-bootstrap3']
     }
+
+    'font-awesome' {
+        resource url:[plugin: 'ala-bootstrap3', dir: 'css', file: 'font-awesome-4.3.0.css'], attrs:[media:'all']
+    }
+
+
 }
