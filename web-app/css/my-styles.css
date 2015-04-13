@@ -130,7 +130,6 @@ img.ncris{margin-top:8px;}
 .btn-success,.label-success,.progress-bar-success{background-color:#65b045;}
 .btn-warning,.label-warning,.progress-bar-warning{background-color:#f4b400;color:#444;}
 .form-control,.span10X{border-color:#d7d7d7;}
-.panel .btn i{color:#fff;}
 .well,.panel{border-color:#d2d2d2;/*border-radius:3px*/;box-shadow:0 1px 0 #cfcfcf;}
 .pad {margin-right: 1em;}
 div.row.control-group > div:nth-child(1) > form > div > span > button {margin-left: 4px;}
@@ -177,7 +176,6 @@ div.row.control-group > div:nth-child(1) > form > div > span > button {margin-le
 
 .list-group a{font-size:13px;font-weight:400;line-height:1.5em;}
 .list-group-item:first-child,.list-group-item:last-child{border-radius:0;}
-.panel .btn i,.btn span{color:#666;}
 .panel .img-circle{height:50px;width:50px;}
 .panel .panel-default{border-color:#ccc;}
 .panel .panel-heading{background-color:#fff;border-color:#fff;color:#262626;font-size:16px;font-weight:700;padding: 10px 15px 0 15px;}
