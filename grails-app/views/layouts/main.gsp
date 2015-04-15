@@ -39,6 +39,6 @@
 <!-- End footer -->
 
 <!-- JS resources-->
-<r:layoutResources/>
+<r:layoutResources disposition="defer"/>
 </body>
 </html>
