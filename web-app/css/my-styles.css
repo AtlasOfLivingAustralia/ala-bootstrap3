@@ -454,6 +454,7 @@ li .soc-bell:hover{background-color:#75ab0a;}
 @media only screen and (min-width : 480px) {
     img.aus-govt,img.ncris{max-width:200px;}
     form.banner{padding-top:6.5em;}
+    .modal-dialog{width:450px;}
 }
 
 /* Small Devices, Tablets */
@@ -461,6 +462,7 @@ li .soc-bell:hover{background-color:#75ab0a;}
     .container.no-gutter{padding-left:15px;padding-right:15px;}
     .navbar-brand{font-size:1.15em;padding-right:15px;}
     form.banner{padding-top:7.5em;}
+    .modal-dialog{width:700px;}
 }
 
 @media only screen and (min-width : 768px) and (max-width: 1024px) {
