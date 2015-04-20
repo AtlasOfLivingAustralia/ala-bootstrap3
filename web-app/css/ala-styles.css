@@ -178,7 +178,7 @@ div.row.control-group > div:nth-child(1) > form > div > span > button {margin-le
 .list-group-item:first-child,.list-group-item:last-child{border-radius:0;}
 .panel .img-circle{height:50px;width:50px;}
 .panel .panel-default{border-color:#ccc;}
-.panel .panel-heading{background-color:#fff;border-color:#fff;color:#262626;font-size:16px;font-weight:700;padding: 10px 15px 0 15px;}
+.panel .panel-heading{color:#262626;font-size:16px;font-weight:700;padding: 10px 15px 0 15px;}
 .panel .panel-heading h3{margin-bottom: 0;}
 .panel .panel-thumbnail{padding:0;}
 .panel-feature{font-size:15px;line-height:1.6em;}
@@ -235,7 +235,7 @@ label.control-label.heading-medium {font-size:24px;font-weight:700;line-height:1
 .color--primary-red{color: #F26649;} .backgroundcolor--primary-red{background-color: #F26649;}
 .color--purple{color: #2E358B;} .backgroundcolor--purple{background-color: #2E358B;}
 .color--red{color: #B10E1E;} .backgroundcolor--red{background-color: #B10E1E;}
-.color--white{color: #fff;} .backgroundcolor--white{background-color: #fff;}
+.color--white{color: #fff !important;} .backgroundcolor--white{background-color: #fff;}
 .color--yellow{color: #FFBF47;} .backgroundcolor--yellow{background-color: #FFBF47;}
 
 
@@ -298,148 +298,42 @@ li .soc-bell:hover{background-color:#75ab0a;}
 /* Layout control
 ================================= */
 
-.padding-bottom-1{padding-bottom: 1em;}
-.padding-bottom-2{padding-bottom: 2em;}
+.padding-bottom-1{padding-bottom: 1em;}.padding-bottom-2{padding-bottom: 2em;}
 .padding-right-1{padding-right: 1em;}
 .padding-left-1{padding-left: 1em;}
+.padding-top-1{padding-top: 1em;}
+.margin-bottom-1{margin-bottom:1em;}.margin-bottom-2{margin-bottom:2em;}
 
 /* Comments
 ================================= */
 
-.page-profile .comment {
-    float: none;
-    width: auto;
-}
-.comment .alert {
-    position: relative;
-    padding: 0 0 1em 45px;
-    overflow: hidden;
-    border-top: 1px solid #f1f1f1;
-}
-.comment .alert:first-child {
-    border-top: 0;
-}
-.comment .alert:first-child .body {
-    padding-top: 0;
-}
-.alert {
-    /*padding: 15px;*/
-    margin-bottom: 10px;
-    border: 1px solid transparent;
-    border-top: 1px solid #ddd;
-}
-.comment .alert .body {
-    padding: 1em 0 0;
-    overflow: hidden;
-    font-size: 14px;
-    border-bottom: 0;
-}
-.comment .alert .time {
-    font-size: 12px;
-    color: #bbb;
-}
-.comment .alert .author {
-    padding: 0;
-    font-weight: bold;
-}
-.comment .alert .comment-icon {
-    position: absolute;
-    top: 14px;
-    left: 0;
-    width: 28px;
-    height: 28px;
-    color: #bbb;
-}
-.comment-icon {
-    font-size: 28px;
-}
-.comment-wrapper{
-    margin-bottom: 0;
-    border-top: 1px solid #f2f2f2;
-}
-.comment-wrapper:first-child {
-    border-top: 0;
-}
-.comment-wrapper .body{
-    padding: 1em 0 0;
-    overflow: hidden;
-    font-size: 14px;
-    border-bottom: 0;
-}
-.comment-wrapper .time{
-    font-size: 12px;
-    color: #bbb;
-}
-.comment-wrapper .author{
-    padding: 0;
-    font-weight: bold;
-}
-.question-list{
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 1.5em;
-}
+.page-profile .comment {float:none;width:auto;}
+.comment .alert {position:relative;padding: 0 0 1em 45px;overflow: hidden;border-top: 1px solid #f1f1f1;}
+.comment .alert:first-child {border-top: 0;}
+.comment .alert:first-child .body {padding-top: 0;}
+.alert {margin-bottom: 10px;border: 1px solid transparent;border-top: 1px solid #ddd;}
+.comment .alert .body {padding: 1em 0 0;overflow: hidden;font-size: 14px;border-bottom: 0;}
+.comment .alert .time {font-size: 12px;color: #bbb;}
+.comment .alert .author {padding: 0;font-weight: bold;}
+.comment .alert .comment-icon {position: absolute;top: 14px;left: 0;width: 28px;height: 28px;color: #bbb;}
+.comment-icon {font-size: 28px;}
+.comment-wrapper{margin-bottom: 0;border-top: 1px solid #f2f2f2;}
+.comment-wrapper:first-child {border-top: 0;}
+.comment-wrapper .body{padding: 1em 0 0;overflow: hidden;font-size: 14px;border-bottom: 0;}
+.comment-wrapper .time{font-size: 12px;color: #bbb;}
+.comment-wrapper .author{padding: 0;font-weight: bold;}
+.question-list{font-size: 13px;font-weight: 400;line-height: 1.5em;}
 
-/*.narrow*/ .cp {
-                vertical-align: top;
-                float: left;
-                margin-right: 10px;
-                width: 28%;
-            }
-/*.narrow*/ .votes {
-                display: inline-block;
-                /*height: 38px;*/
-                /*min-width: 38px;*/
-                /*margin: 0 3px 0 0;*/
-                font-size: 11px;
-                color: #777;
-                /*padding: 5px 5px 6px 5px;*/
-            }
-/*.narrow*/ .mini-counts {
-                margin-bottom: 4px;
-                font-size: 17px;
-                font-weight: 300;
-                color: #777;
-            }
-
-.contrib-number{
-    /*text-align: center;*/
-    display: inline-block;
-    color: #444;
-    font-size: 34px;
-    margin-top: 18px;
-}
-.contrib-details{
-    /*text-align: center;*/
-    color: #9a9a9a;
-    font-size: 13px;
-    text-align: center;
-    display: block;
-}
-.contrib-stats {
-    margin-bottom: 10px;
-    /*padding-top: 15px;*/
-    /*padding-bottom: 15px;*/
-    text-align: center;
-    /*border-top: 1px solid #eee;*/
-    /*border-bottom: 1px solid #eee;*/
-}
-.contrib-question{
-    font-size: 20px;
-    font-weight: 900;
-    color: #9a9a9a;
-    /*text-transform: uppercase;*/
-    margin-bottom: 0.2em;
-}
-.contrib-body{
-    margin-bottom: .8em;
-}
-.contrib-time{
-    font-size: 12px;
-    color: #bbb;
-    margin-bottom: .2em;
-}
-
+.cp {vertical-align: top;float: left;margin-right: 10px;width: 28%;}
+.votes {display: inline-block;font-size: 11px;color: #777;}
+.mini-counts {margin-bottom: 4px;font-size: 17px;font-weight: 300;color: #777;}
+.contrib-number{display: inline-block;/*color:#444*/;font-size: 34px;margin-top: 18px;}
+.contrib-details{color: #9a9a9a;font-size: 13px;text-align: center;display: block;}
+.contrib-stats {margin-bottom: 10px;text-align: center;}
+.contrib-question{font-size: 20px;font-weight: 900;color: #9a9a9a;margin-bottom: 0.2em;}
+.contrib-body{margin-bottom: .8em;}
+.contrib-time{font-size: 12px;color: #bbb;margin-bottom: .2em;}
+.ident-question {font-size:16px;font-weight:900;color:#9a9a9a;margin-bottom:0.2em;}
 
 /* Media Queries (Mobile First Method = only add rules to modify larger views)
 ================================= */

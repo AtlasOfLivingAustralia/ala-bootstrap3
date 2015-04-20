@@ -7,7 +7,7 @@ modules = {
 
     ala {
         dependsOn 'bootstrap', 'font-awesome'
-        resource url: [ dir:'css', file: 'my-styles.css', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
+        resource url: [ dir:'css', file: 'ala-styles.css', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
     }
 
     core {
