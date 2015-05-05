@@ -146,7 +146,7 @@ div.row.control-group > div:nth-child(1) > form > div > span > button {margin-le
 .pagination>li>a, .pagination>li>span {color:#DA644E;}
 .pagination>li>a:hover, .pagination>li>span {color:#DA644E;}
 .pagination>li>a:focus, .pagination>li>span {color:#DA644E;}
-.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {border-color: #F26649;}
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {border-color: #F26649; background-color: #DA644E}
 .pagination>.active>a{background-color:#DA644E;}
 .pagination>.active>a:hover{background-color:#DA644E;border-color:#F26649;}
 .pagination>.active>a:focus{background-color:#DA644E;border-color:#F26649;}
