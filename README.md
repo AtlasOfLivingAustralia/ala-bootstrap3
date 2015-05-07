@@ -19,3 +19,12 @@ To enable the boostrap compatible rendering add the following line to your `Conf
 ```
 grails.plugins.twitterbootstrap.fixtaglib = true
 ```
+
+## Changelog
+* Version **1.1** (07/05/2015)
+  * Added latest style changes
+  * Upgrades bootstrap dependency to version 3.3.4
+  * Added TwitterBootstrapTaglib from the Twitter Bootstrap plugin
+
+* Version **1.0** (04/03/2015)
+  * Initial release
