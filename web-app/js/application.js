@@ -1,9 +1,16 @@
 // initialise plugins
 $(function(){
+
+    var autocompleteUrl = 'http://bie.ala.org.au/ws/search/auto';
+
+    if(BIE_VARS && BIE_VARS.autocompleteUrl){
+        autocompleteUrl = BIE_VARS.autocompleteUrl;
+    }
+
     // autocomplete on navbar search input
-    $("input.general-search").autocomplete('http://bie.ala.org.au/ws/search/auto.jsonp', {
+    $("input.general-search").autocomplete(autocompleteUrl, {
         extraParams: {limit: 100},
-        dataType: 'jsonp',
+        dataType: 'json',
         parse: function(data) {
             var rows = new Array();
             data = data.autoCompleteList;
