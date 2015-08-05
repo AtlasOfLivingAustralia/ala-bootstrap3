@@ -1,6 +1,6 @@
 class AlaBootstrap3GrailsPlugin {
     // the plugin version
-    def version = "1.2-SNAPSHOT"
+    def version = "1.2"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.3 > *"
     // resources that are excluded from plugin packaging
@@ -10,8 +10,8 @@ class AlaBootstrap3GrailsPlugin {
 
     // TODO Fill in these fields
     def title = "Ala Bootstrap3 Plugin" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
+    def author = "Angel Ruiz"
+    def authorEmail = "aruizca@gmail.com"
     def description = '''\
 Brief summary/description of the plugin.
 '''
