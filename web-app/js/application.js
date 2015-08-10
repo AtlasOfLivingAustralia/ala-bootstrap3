@@ -3,7 +3,7 @@ $(function(){
 
     var autocompleteUrl = 'http://bie.ala.org.au/ws/search/auto';
 
-    if(BIE_VARS && BIE_VARS.autocompleteUrl){
+    if(typeof BIE_VARS != 'undefined' && BIE_VARS.autocompleteUrl){
         autocompleteUrl = BIE_VARS.autocompleteUrl;
     }
 
