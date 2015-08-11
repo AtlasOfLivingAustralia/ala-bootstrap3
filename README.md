@@ -3,7 +3,7 @@ ala-bootstrap3   [![Build Status](https://travis-ci.org/AtlasOfLivingAustralia/a
 
 ## Usage
 ```
-runtime ":ala-bootstrap3:1.1"
+runtime ":ala-bootstrap3:1.2.1"
 ```
 
 ## Description
