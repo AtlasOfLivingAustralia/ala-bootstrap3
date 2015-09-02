@@ -20,7 +20,7 @@ modules = {
         // This is a legacy component that do not work with latest versions of jQuery (1.11+, maybe others)
         dependsOn 'jquery-migration'
         // Important note!!: To use this component along side jQuery UI, you need to download a custom jQuery UI compilation that
-        // do not include the autocommplete widget
+        // do not include the autocomplete widget
         resource url: [ dir:'css', file: 'jquery.autocomplete.css', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
         resource url: [ dir:'js', file: 'jquery.autocomplete.js', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
     }

@@ -22,7 +22,7 @@ class HeaderFooterTagLib {
     // the next two can also be overridden by tag attributes
     def casLoginUrl = Holders.config.security.cas.loginUrl ?: "https://auth.ala.org.au/cas/login"
     def casLogoutUrl = Holders.config.security.cas.logoutUrl ?: "https://auth.ala.org.au/cas/logout"
-    def cacheTimeout = Holders.config.headerAndFooter.cacheTimeout ?: 1800000
+    def cacheTimeout = (Holders.config.headerAndFooter.cacheTimeout ?: '1800000').toLong()
 
     /**
      * Display the page banner. Includes login/logout link and search box.
@@ -41,6 +41,13 @@ class HeaderFooterTagLib {
      */
     def banner = { attrs ->
         out << load('banner', attrs)
+    }
+
+    /**
+     *
+     */
+    def head = {
+        out << load('head', [:])
     }
 
     /**
@@ -67,19 +74,21 @@ class HeaderFooterTagLib {
     }
 
     /**
-     * Cache for includes. Expires after 30mins or when clearCache is called.
+     * Cache for includes. Expires after 30 mins or when clearCache is called.
      */
     def hfCache = [
             banner: [timestamp: new Date().time, content: ""],
             menu: [timestamp: new Date().time, content: ""],
-            footer: [timestamp: new Date().time, content: ""]]
+            footer: [timestamp: new Date().time, content: ""],
+            head: [timestamp: new Date().time, content: ""]
+    ]
 
     /**
      * Call this tag from a controller to clear the cache.
      */
     def clearCache = {
         hfCache.each { key, obj -> hfCache[key].content = ""}
-        println "cache cleared"
+        log.info "cache cleared"
     }
 
     /**
@@ -128,10 +137,8 @@ class HeaderFooterTagLib {
             content = getContent(which)
             hfCache[which].content = content
             hfCache[which].timestamp = new Date().time
-        }
-        else {
+        } else {
             content = hfCache[which].content
-            //println "using cache"
         }
         return transform(content, attrs)
     }
