@@ -14,11 +14,11 @@ class HeaderFooterTagLib {
      * The banner include assumes that ala-cas-client exists in the app library.
      */
 
-    def alaBaseURL = Holders.config.ala.baseURL ?: "http://www.ala.org.au"
+    def alaBaseURL = Holders.config.ala.baseURL ?: "https://www.ala.org.au"
     def bieBaseURL = Holders.config.bie.baseURL ?: "http://bie.ala.org.au"
     def grailServerURL = Holders.config.grails.serverURL ?: "http://bie.ala.org.au"
     def bieSearchPath = Holders.config.bie.searchPath ?: "/search"
-    def headerAndFooterBaseURL = Holders.config.headerAndFooter.baseURL ?: "http://www2.ala.org.au/commonui-bs3"
+    def headerAndFooterBaseURL = Holders.config.headerAndFooter.baseURL ?: "https://www.ala.org.au/commonui-bs3"
     // the next two can also be overridden by tag attributes
     def casLoginUrl = Holders.config.security.cas.loginUrl ?: "https://auth.ala.org.au/cas/login"
     def casLogoutUrl = Holders.config.security.cas.logoutUrl ?: "https://auth.ala.org.au/cas/logout"
