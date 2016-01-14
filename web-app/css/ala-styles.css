@@ -346,8 +346,8 @@ a,.link-list .heading a{color:#C44D34;}
 a:hover,.link-list .heading a:hover{color:#DA644E;}
 a:hover, a:focus {color: #DA644E;}
 .breadcrumb {background-color: transparent;border-radius: 0;}
-a > i{color:#9A9A9A;}
-a > i:hover{color:#DA644E;}
+/* a > i{color:#9A9A9A;} */
+/* a > i:hover{color:#DA644E;} */
 
 /* Social Icons
 ================================= */
