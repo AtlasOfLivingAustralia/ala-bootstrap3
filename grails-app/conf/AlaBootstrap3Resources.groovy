@@ -1,19 +1,19 @@
 modules = {
     bootstrap {
         dependsOn 'core'
-        resource url: [ dir:'js', file: 'bootstrap.min.js', plugin:'ala-bootstrap3']
-        resource url: [ dir:'css', file: 'bootstrap.min.css', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
+        resource url:grailsApplication.config.headerAndFooter.baseURL + '/js/bootstrap.min.js'
+        resource url: grailsApplication.config.headerAndFooter.baseURL + '/css/bootstrap.min.css', attrs:[media:'screen, projection, print']
     }
 
     ala {
         dependsOn 'bootstrap', 'font-awesome'
-        resource url: [ dir:'css', file: 'ala-styles.css', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
+        resource url: grailsApplication.config.headerAndFooter.baseURL + '/css/ala-styles.css', attrs:[media:'screen, projection, print']
     }
 
     core {
         dependsOn 'jquery', 'autocomplete'
         resource url: [ dir:'js', file: 'html5.js', plugin:'ala-bootstrap3'], wrapper: { s -> "<!--[if lt IE 9]>$s<![endif]-->" }
-        resource url: [ dir:'js', file: 'application.js', plugin:'ala-bootstrap3'], attrs:[media:'screen, projection, print']
+        resource url: grailsApplication.config.headerAndFooter.baseURL + '/js/application.js', attrs:[media:'screen, projection, print']
     }
 
     autocomplete {

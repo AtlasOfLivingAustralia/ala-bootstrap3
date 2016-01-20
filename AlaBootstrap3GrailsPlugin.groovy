@@ -41,7 +41,11 @@ Brief summary/description of the plugin.
     }
 
     def doWithSpring = {
-        // TODO Implement runtime spring config (optional)
+        // add default value for config.headerAndFooter.baseURL that can be overridden by client app
+        def buildProps = new Properties()
+        buildProps.setProperty("headerAndFooter.baseURL","https://www.ala.org.au/commonui-bs3")
+        def configSlurper = new ConfigSlurper().parse(buildProps)
+        application.config = configSlurper.merge(application.config)
     }
 
     def doWithDynamicMethods = { ctx ->
