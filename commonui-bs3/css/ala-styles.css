@@ -7,7 +7,7 @@
 /* Global
 ================================= */
 body{-webkit-font-smoothing:antialiased;background-color:#F2F2F2;font:normal 15px Roboto,Helvetica,"Helvetica Neue",Arial,sans-serif;padding-top:80px;}
-
+body.white-bg { background-color: #ffffff; }
 #main{padding:0;}
 .container.no-gutter{max-width:1100px;padding-left:0;padding-right:0;}
 .container footer{padding:1em 0;}
@@ -321,7 +321,7 @@ label.control-label.heading-medium {font-size:24px;font-weight:700;line-height:1
 
 /* Footer
 ================================= */
-
+body.white-bg > footer { background-color: #F2F2F2; }
 .main-footer{background-color:#fff;margin:100px 0 0;padding:30px 0 0;}
 .main-footer a{color:#637073;}
 .main-footer,.secondary-footer,.social-footer{font-size:.95em;}
