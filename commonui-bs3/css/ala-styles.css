@@ -73,7 +73,7 @@ div.col-md-1>ul.nav-login>li>a:visited {color: #fff;}
 ================================= */
 .alert {border-radius: 0;}
 .alert.alert-promotional{background-color:#DA644E;border-color:#DA644E;border-top:none;color:#FFF6F5;margin-top:-30px;}
-.alert.alert-creativecommons{background-color:#C44D34;border-color:#9d9d9d;border-top:none;color:#fff;}
+.alert.alert-creativecommons{background-color:#C44D34;border-color:#9d9d9d;border-top:none;color:#fff;margin-bottom:0;}
 .container.alert-container {padding: 0 25px;}
 p.alert-text {padding: 8px 0 0;font-size: 18px;line-height: 26px;}
 .alert-text.text-creativecommons {font-size: 15px;line-height: 22px;}
@@ -230,7 +230,7 @@ section#breadcrumb {padding: 130px 0 15px 0;border-bottom: 1px solid #E7E7E7;bac
 .panel-danger > .panel-heading {color: #b94a48;background-color: #f2dede;border-color: #eed3d7;}
 .panel-danger > .panel-heading + .panel-collapse .panel-body {border-top-color: #eed3d7;}
 .panel-danger > .panel-footer + .panel-collapse .panel-body {border-bottom-color: #eed3d7;}
-.panel-blog {height: inherit !important;}
+.panel-height-inherit {height: inherit !important;}
 
 /* Pagination
 ================================= */
