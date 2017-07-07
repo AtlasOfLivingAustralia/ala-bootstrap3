@@ -1,4 +1,4 @@
-grails.servlet.version = "2.5"
+grails.servlet.version = "3.0"
 grails.project.work.dir = "target"
 grails.project.target.level = 1.7
 grails.project.source.level = 1.7
@@ -21,9 +21,7 @@ grails.project.dependency.resolution = {
         }
     }
     dependencies {
-        compile ('au.org.ala:ala-cas-client:2.1') {
-            excludes([group: 'javax.servlet', name: 'servlet-api'])
-        }
+        compile ('au.org.ala:ala-cas-client:2.3')
     }
 
     plugins {
