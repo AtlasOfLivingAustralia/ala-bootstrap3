@@ -24,11 +24,28 @@
   <![endif]-->
 </head>
 <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
-
+<g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.skin?.fluidLayout}"/>
 <!-- Header -->
 <hf:banner logoutUrl="${g.createLink(controller:"logout", action:"logout", absolute: true)}" />
 <!-- End header -->
-<g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.skin?.fluidLayout}"/>
+<!-- Breadcrumb -->
+<g:if test="${pageProperty(name:'meta.breadcrumb')}">
+    <section id="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <ul class="breadcrumb-list">
+                    <li><a href="https://www.ala.org.au/">Home</a></li>
+                    <g:if test="${pageProperty(name:'meta.breadcrumbParent')}">
+                        <g:set value="${pageProperty(name:'meta.breadcrumbParent').tokenize(',')}" var="parentArray"/>
+                        <li><span class="glyphicon glyphicon-menu-right"></span><a href="${parentArray[0]}">${parentArray[1]}</a></li>
+                    </g:if>
+                    <li class="active"><span class="glyphicon glyphicon-menu-right"></span>${pageProperty(name:'meta.breadcrumb')}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</g:if>
+<!-- End Breadcrumb -->
 <!-- Container -->
 <div class="${fluidLayout ? 'container-fluid' : 'container'}" id="main">
     <g:layoutBody />
