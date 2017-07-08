@@ -6,7 +6,7 @@
 /* Global
 ================================= */
 body{-webkit-font-smoothing:antialiased;font:normal 15px Roboto,Helvetica,"Helvetica Neue",Arial,sans-serif;padding-top:0;}
-#main{padding: 0 0 2em 0;}
+#main{padding: 30px 0 5em 0;}
 body.background-white {background-color:#fff;}
 body.background-lightgrey {background-color:#f2f2f2;}
 .container {position: relative;max-width: 1260px;}
