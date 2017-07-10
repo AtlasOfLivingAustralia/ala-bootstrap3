@@ -25,11 +25,12 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        build(":release:3.0.1",
-                ":rest-client-builder:2.0.3") {
+        build(":release:3.1.1",
+                ":rest-client-builder:2.1.1") {
             export = false
         }
+        compile (':asset-pipeline:2.14.1')  { export = false }
+        compile (':resources:1.2.14') { export = false }
         runtime ":jquery:1.11.1"
-        runtime ':resources:1.2.14'
     }
 }

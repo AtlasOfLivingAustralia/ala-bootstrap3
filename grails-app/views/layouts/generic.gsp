@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en-AU">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,8 +8,7 @@
     <meta name="author" content="${grailsApplication.config.skin.orgNameLong}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><g:layoutTitle /></title>
-    <r:require modules="bootstrap"/>
-    <r:layoutResources/>
+    <g:render template="head" model="[assetPrefix: 'core', resourceModule: 'bootstrap']" />
     <g:layoutHead />
     <hf:head/>
 </head>
@@ -24,11 +23,6 @@
     <g:layoutBody />
 </div><!-- End container #main col -->
 
-<!-- Footer -->
-<hf:footer/>
-<!-- End footer -->
-
-<!-- JS resources-->
-<r:layoutResources disposition="defer"/>
+<g:render template="tail" model="[assetPrefix: 'core']" />
 </body>
 </html>

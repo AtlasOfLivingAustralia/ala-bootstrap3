@@ -1,3 +1,5 @@
+import org.codehaus.groovy.grails.commons.GrailsApplication
+
 class AlaBootstrap3GrailsPlugin {
     // the plugin version
     def version = "1.7.0-SNAPSHOT"
@@ -41,11 +43,7 @@ Brief summary/description of the plugin.
     }
 
     def doWithSpring = {
-        // add default value for config.headerAndFooter.baseURL that can be overridden by client app
-        def buildProps = new Properties()
-        buildProps.setProperty("headerAndFooter.baseURL","https://www.ala.org.au/commonui-bs3")
-        def configSlurper = new ConfigSlurper().parse(buildProps)
-        application.config = configSlurper.merge(application.config)
+        addDefaultConfig(application)
     }
 
     def doWithDynamicMethods = { ctx ->
@@ -65,9 +63,18 @@ Brief summary/description of the plugin.
     def onConfigChange = { event ->
         // TODO Implement code that is executed when the project configuration changes.
         // The event is the same as for 'onChange'.
+        addDefaultConfig(application)
     }
 
     def onShutdown = { event ->
         // TODO Implement code that is executed when the application shuts down (optional)
+    }
+
+    // add default value for config.headerAndFooter.baseURL that can be overridden by client app
+    private void addDefaultConfig(GrailsApplication application) {
+        def buildProps = new Properties()
+        buildProps.setProperty("headerAndFooter.baseURL","https://www.ala.org.au/commonui-bs3")
+        def configSlurper = new ConfigSlurper().parse(buildProps)
+        application.config = configSlurper.merge(application.config)
     }
 }
