@@ -12,7 +12,6 @@ modules = {
 
     core {
         dependsOn 'jquery', 'autocomplete'
-        resource url: [ dir:'js', file: 'html5.js', plugin:'ala-bootstrap3'], wrapper: { s -> "<!--[if lt IE 9]>$s<![endif]-->" }
         resource url: grailsApplication.config.headerAndFooter.baseURL + '/js/application.js'
     }
 
@@ -32,7 +31,7 @@ modules = {
     }
 
     'font-awesome' {
-        resource url:[plugin: 'ala-bootstrap3', dir: 'css', file: 'font-awesome-4.3.0.css'], attrs:[media:'all']
+        resource url:[plugin: 'ala-bootstrap3', dir: 'css', file: 'font-awesome-4.7.0.css'], attrs:[media:'all']
     }
 
 

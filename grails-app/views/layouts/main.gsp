@@ -11,17 +11,15 @@
 
     <title><g:layoutTitle /></title>
 
-    <r:require modules="bootstrap, ala"/>
-
-    <r:layoutResources/>
+    <g:render template="/layouts/head" model="${[assetPrefix: 'ala', assetLinks: [[href: "${grailsApplication.config.headerAndFooter.baseURL}/css/ala-styles.css", media: 'screen,print']], requireModule: 'ala']}" />
     <g:layoutHead />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 <g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.skin?.fluidLayout}"/>
@@ -54,11 +52,6 @@
     <g:layoutBody />
 </div><!-- End container #main col -->
 
-<!-- Footer -->
-<hf:footer/>
-<!-- End footer -->
-
-<!-- JS resources-->
-<r:layoutResources disposition="defer"/>
+<g:render template="/layouts/tail" model="[assetPrefix: 'ala']" />
 </body>
 </html>

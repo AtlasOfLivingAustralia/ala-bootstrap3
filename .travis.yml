@@ -6,12 +6,15 @@ branches:
   only:
   - master
   - hotfix
+cache:
+  directories:
+    - ~/.m2/repository
+    - ~/.grails/wrapper
 before_install:
 - wget -q https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/ala_common.sh
 - chmod +x ala_common.sh
 - source ./ala_common.sh
-
-- ala_travis_grails_setup_env
+- ala_travis_grails_repo_setup
 
 script:
 - ala_travis_grails_build
