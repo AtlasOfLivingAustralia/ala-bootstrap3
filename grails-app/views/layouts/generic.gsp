@@ -8,7 +8,7 @@
     <meta name="author" content="${grailsApplication.config.skin.orgNameLong}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><g:layoutTitle /></title>
-    <g:render template="head" model="[assetPrefix: 'core', resourceModule: 'bootstrap']" />
+    <g:render template="head" model="[assetPrefix: 'core', requireModule: 'bootstrap']" />
     <g:layoutHead />
     <hf:head/>
 </head>
