@@ -6,3 +6,4 @@ plugin.xml
 *.tld
 *.zip
 *.sha1
+.DS_Store
