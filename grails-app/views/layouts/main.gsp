@@ -30,19 +30,16 @@
 <section id="breadcrumb">
     <div class="container">
         <div class="row">
-            <ul class="breadcrumb-list">
-                <li><a href="https://www.ala.org.au/">Home</a></li>
-                <g:if test="${pageProperty(name:'meta.breadcrumbParent')}">
-                    <g:set value="${pageProperty(name:'meta.breadcrumbParent').tokenize(',')}" var="parentArray"/>
-                    <li><span class="glyphicon glyphicon-menu-right"></span><a href="${parentArray[0]}">${parentArray[1]}</a></li>
-                </g:if>
-                <g:if test="${pageProperty(name:'meta.breadcrumb')}">
-                    <li class="active"><span class="glyphicon glyphicon-menu-right"></span>${pageProperty(name:'meta.breadcrumb')}</li>
-                </g:if>
-                <g:else>
-                    <li class="active"><span class="glyphicon glyphicon-menu-right"></span>${pageProperty(name:'title')}</li>
-                </g:else>
-            </ul>
+            <nav aria-label="Breadcrumb" role="navigation">
+                <ol class="breadcrumb-list">
+                    <li><a href="https://www.ala.org.au/">Home</a></li>
+                    <g:if test="${pageProperty(name:'meta.breadcrumbParent')}">
+                        <g:set value="${pageProperty(name:'meta.breadcrumbParent').tokenize(',')}" var="parentArray"/>
+                        <li><a href="${parentArray[0]}">${parentArray[1]}</a></li>
+                    </g:if>
+                    <li class="active"><g:if test="${pageProperty(name:'meta.breadcrumb')}">${pageProperty(name:'meta.breadcrumb')}</g:if><g:else>${pageProperty(name:'title')}</g:else></li>
+                </ol>
+            </nav>
         </div>
     </div>
 </section>
