@@ -90,9 +90,11 @@ section#breadcrumb {padding: 12px 0 15px 19px;border-bottom: 1px solid #E7E7E7;b
 .breadcrumb-list {list-style: none;margin: 0 0 0 25px;padding: 0;}
 .breadcrumb-list li {display: inline-block;}
 .breadcrumb-list li a {color: #AF442E;}
-/* This is the glyphicon stlye + glyphicon-chevron-right + styles to colour and space it between breadcrumb items */
-.breadcrumb-list li+li::before {position: relative;top: 1px;display: inline-block;font-family: 'Glyphicons Halflings';font-style: normal;font-weight: 400;line-height: 1;-webkit-font-smoothing: antialiased;content: '\e080';margin-right: 5px;color: #bbb;top: 2px;}
-nav.breadcrumb [aria-current="page"] { color: #333; text-decoration: none; }
+/* This is the glyphicon stlye + glyphicon-menu-right + styles to colour and space it between breadcrumb items */
+.breadcrumb-list li+li::before {position: relative;top: 1px;display: inline-block;font-family: 'Glyphicons Halflings';font-style: normal;font-weight: 400;line-height: 1;-webkit-font-smoothing: antialiased;content: '\e258';margin-right: 5px;color: #bbb;top: 2px;}
+/* Temporary measure to hide actual glyphicon */
+.breadcrumb-list li .glyphicon { display: none; }
+.breadcrumb-list li a[aria-current="page"] { color: #333; text-decoration: none; }
 
 /* Forms
 ================================= */
