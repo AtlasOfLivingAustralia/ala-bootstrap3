@@ -6,6 +6,7 @@ branches:
   only:
   - master
   - hotfix
+  - may2017redesign
 cache:
   directories:
     - ~/.m2/repository
