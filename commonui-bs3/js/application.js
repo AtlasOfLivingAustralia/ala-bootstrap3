@@ -8,7 +8,7 @@ $(function(){
     }
 
     // autocomplete on navbar search input
-    $("input.general-search").autocomplete(autocompleteUrl, {
+    $("#biesearch").autocomplete(autocompleteUrl, {
         extraParams: {limit: 100},
         dataType: 'json',
         parse: function(data) {
