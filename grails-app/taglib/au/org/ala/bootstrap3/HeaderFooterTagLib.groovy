@@ -1,7 +1,7 @@
-package au.org.ala.bootstrap3
+package au.org.ala.regions
 
-import grails.util.Holders
 import au.org.ala.cas.util.AuthenticationCookieUtils
+import grails.util.Holders
 
 class HeaderFooterTagLib {
 
@@ -149,6 +149,8 @@ class HeaderFooterTagLib {
      * @return
      */
     String getContent(which) {
+
+
         def url = headerAndFooterBaseURL + '/' + which + ".html" // Bootstrap versions
         def conn = new URL(url).openConnection()
         try {
@@ -157,10 +159,8 @@ class HeaderFooterTagLib {
             return conn.content.text
         } catch (SocketTimeoutException e) {
             log.warn "Timed out getting ${which} template. URL= ${url}."
-            println "Timed out getting ${which} template. URL= ${url}."
         } catch (Exception e) {
             log.warn "Failed to get ${which} template. ${e.getClass()} ${e.getMessage()} URL= ${url}."
-            println "Failed to get ${which} template. ${e.getClass()} ${e.getMessage()} URL= ${url}."
         }
         return ""
     }
@@ -180,10 +180,22 @@ class HeaderFooterTagLib {
             content = content.replaceAll('class="container"', 'class="container-fluid"')
         }
         if (content =~ "::loginLogoutListItem::") {
-            // only do the work if it is needed
-            content = content.replaceAll(/::loginLogoutListItem::/, buildLoginoutLink(attrs))
+            if (isLoggedIn(attrs)) {
+                // only do the work if it is needed
+                content = content.replaceAll(/::loginLogoutListItem::/, buildLoginoutLink(attrs))
+            } else {
+                // Replace <a>My Profile</a> that appears before '::loginLogoutListItem::'
+                // with 'login'
+                content = content.replaceAll(/(?s)(<a[^<]*?My profile.*?a>)(.*?::loginLogoutListItem::)/, buildLoginoutLink(attrs) + '$2')
+            }
         }
         return content
+    }
+
+    Boolean isLoggedIn(attrs) {
+        (attrs.ignoreCookie != "true" &&
+                AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) ||
+                request.userPrincipal
     }
 
     /**
@@ -202,16 +214,14 @@ class HeaderFooterTagLib {
             logoutReturnToUrl += "?" + URLEncoder.encode(request.queryString, "UTF-8")
         }
 
-        if ((attrs.ignoreCookie != "true" &&
-                AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) ||
-                request.userPrincipal) {
+        if (isLoggedIn(attrs)) {
             return "<a href='${logoutUrl}" +
                     "?casUrl=${casLogoutUrl}" +
                     "&appUrl=${logoutReturnToUrl}' " +
                     "class='${attrs.cssClass}'>Logout</a>"
         } else {
             // currently logged out
-            return "<a href='${buildLoginLink(attrs)}' class='${attrs.cssClass}'><span>Log in</span></a>"
+            return "<a href='${buildLoginLink(attrs)}' class='${attrs.cssClass}'>Log in</a>"
         }
     }
 

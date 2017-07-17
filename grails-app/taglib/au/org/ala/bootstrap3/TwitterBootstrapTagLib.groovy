@@ -1,11 +1,12 @@
 package au.org.ala.bootstrap3
 
-import org.springframework.web.servlet.support.RequestContextUtils as RCU
+import org.springframework.web.servlet.support.RequestContextUtils
 
 /*
 * This g:paginate tag fix is copied from:
 * https://github.com/groovydev/twitter-bootstrap-grails-plugin/blob/master/grails-app/taglib/org/groovydev/TwitterBootstrapTagLib.groovy
 */
+
 class TwitterBootstrapTagLib {
 
     /*
@@ -46,7 +47,7 @@ class TwitterBootstrapTagLib {
             throwTagError("Tag [paginate] is missing required attribute [total]")
         }
         def messageSource = grailsAttributes.messageSource
-        def locale = RCU.getLocale(request)
+        def locale = RequestContextUtils.getLocale(request)
 
         def total = attrs.int('total') ?: 0
         def action = (attrs.action ? attrs.action : (params.action ? params.action : "index"))
