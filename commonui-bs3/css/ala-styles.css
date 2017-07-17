@@ -518,16 +518,17 @@ iframe,embed {max-width: 100%;}
 body #wpadminbar {position: fixed;}
 
 /** Navbar logged in switch */
-.nav-logged-in {
+/* TODO Reverse order so that log in is visible by default */
+.nav-login {
   display: none;
 }
 
-.logged-in .nav-logged-in {
+.not-logged-in .nav-logged-in {
+  display: none;
+}
+
+.not-logged-in .nav-login {
   display: block;
-}
-
-.logged-in .nav-login {
-  display: none;
 }
 
 /* Media Queries (Mobile First Method = only add rules to modify larger views)

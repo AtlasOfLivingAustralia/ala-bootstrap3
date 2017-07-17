@@ -9,7 +9,7 @@ class HeaderFooterTagLib {
     static returnObjectForTags = ['createLoginUrl']
 
     static LOGGED_IN_CLASS = 'logged-in'
-    static LOGGED_OUT_CLASS = ''
+    static LOGGED_OUT_CLASS = 'not-logged-in'
 
     /**
      * All the following statics can be overridden by the specified config declarations.
