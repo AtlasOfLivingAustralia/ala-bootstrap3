@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenLocal()
+        maven { url "https://nexus.ala.org.au/content/groups/public/" }
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
@@ -10,7 +11,7 @@ buildscript {
 }
 
 version "3.0.0-SNAPSHOT"
-group "org.grails.plugin.ala-bootstrap3"
+group "org.grails.plugin"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -21,6 +22,7 @@ apply plugin:"asset-pipeline"
 
 repositories {
     mavenLocal()
+    maven { url "https://nexus.ala.org.au/content/groups/public/" }
     maven { url "https://repo.grails.org/grails/core" }
 }
 
