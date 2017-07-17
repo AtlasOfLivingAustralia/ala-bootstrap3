@@ -517,6 +517,20 @@ img.alignnone {max-width: 96%;height: auto;width: auto;}
 iframe,embed {max-width: 100%;}
 body #wpadminbar {position: fixed;}
 
+/** Navbar logged in switch */
+/* TODO Reverse order so that log in is visible by default */
+.nav-login {
+  display: none;
+}
+
+.not-logged-in .nav-logged-in {
+  display: none;
+}
+
+.not-logged-in .nav-login {
+  display: block;
+}
+
 /* Media Queries (Mobile First Method = only add rules to modify larger views)
 ================================= */
 /* Matches bootstrap breakpoint */
