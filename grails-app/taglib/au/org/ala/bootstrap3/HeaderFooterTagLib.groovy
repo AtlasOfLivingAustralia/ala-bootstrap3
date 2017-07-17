@@ -8,6 +8,9 @@ class HeaderFooterTagLib {
     static namespace = 'hf'     // namespace for headers and footers
     static returnObjectForTags = ['createLoginUrl']
 
+    static LOGGED_IN_CLASS = 'logged-in'
+    static LOGGED_OUT_CLASS = ''
+
     /**
      * All the following statics can be overridden by the specified config declarations.
      *
@@ -176,6 +179,7 @@ class HeaderFooterTagLib {
         content = content.replaceAll(/::centralServer::/, alaBaseURL)
         content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
         content = content.replaceAll(/::searchPath::/, bieSearchPath)
+        content = content.replaceAll(/::authStatusClass::/, isLoggedIn(attrs) ? LOGGED_IN_CLASS: LOGGED_OUT_CLASS)
         if (attrs.fluidLayout) {
             content = content.replaceAll('class="container"', 'class="container-fluid"')
         }
@@ -202,9 +206,7 @@ class HeaderFooterTagLib {
             logoutReturnToUrl += "?" + URLEncoder.encode(request.queryString, "UTF-8")
         }
 
-        if ((attrs.ignoreCookie != "true" &&
-                AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) ||
-                request.userPrincipal) {
+        if (isLoggedIn(attrs)) {
             return "<a href='${logoutUrl}" +
                     "?casUrl=${casLogoutUrl}" +
                     "&appUrl=${logoutReturnToUrl}' " +
@@ -213,6 +215,10 @@ class HeaderFooterTagLib {
             // currently logged out
             return "<a href='${buildLoginLink(attrs)}' class='${attrs.cssClass}'><span>Log in</span></a>"
         }
+    }
+
+    private boolean isLoggedIn(attrs) {
+        (attrs.ignoreCookie != "true" && AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) || request.userPrincipal
     }
 
     /**
