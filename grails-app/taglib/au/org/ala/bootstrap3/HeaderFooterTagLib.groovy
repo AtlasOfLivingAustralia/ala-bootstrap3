@@ -184,19 +184,13 @@ class HeaderFooterTagLib {
             content = content.replaceAll('class="container"', 'class="container-fluid"')
         }
         if (content =~ "::loginLogoutListItem::") {
-            if (isLoggedIn(attrs)) {
-                // only do the work if it is needed
-                content = content.replaceAll(/::loginLogoutListItem::/, buildLoginoutLink(attrs))
-            } else {
-                // Replace <a>My Profile</a> that appears before '::loginLogoutListItem::'
-                // with 'login'
-                content = content.replaceAll(/(?s)(<a[^<]*?My profile.*?a>)(.*?::loginLogoutListItem::)/, buildLoginoutLink(attrs) + '$2')
-            }
+            // only do the work if it is needed
+            content = content.replaceAll(/::loginLogoutListItem::/, buildLoginoutLink(attrs))
         }
         return content
     }
 
-    Boolean isLoggedIn(attrs) {
+    boolean isLoggedIn(attrs) {
         (attrs.ignoreCookie != "true" &&
                 AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) ||
                 request.userPrincipal
@@ -227,10 +221,6 @@ class HeaderFooterTagLib {
             // currently logged out
             return "<a href='${buildLoginLink(attrs)}' class='${attrs.cssClass}'>Log in</a>"
         }
-    }
-
-    private boolean isLoggedIn(attrs) {
-        (attrs.ignoreCookie != "true" && AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) || request.userPrincipal
     }
 
     /**
