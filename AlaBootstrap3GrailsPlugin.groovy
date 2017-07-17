@@ -2,7 +2,7 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 
 class AlaBootstrap3GrailsPlugin {
     // the plugin version
-    def version = "2.0.0"
+    def version = "2.1.0-SNAPSHOT"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.3 > *"
     // resources that are excluded from plugin packaging
