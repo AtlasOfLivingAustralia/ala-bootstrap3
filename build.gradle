@@ -1,0 +1,120 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.2"
+    }
+}
+
+version "3.0.0-SNAPSHOT"
+group "org.grails.plugin.ala-bootstrap3"
+
+apply plugin:"eclipse"
+apply plugin:"idea"
+apply plugin:"org.grails.grails-plugin"
+apply plugin:"org.grails.grails-plugin-publish"
+apply plugin:"org.grails.grails-gsp"
+apply plugin:"asset-pipeline"
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+configurations {
+    provided
+}
+
+dependencies {
+//    compile "org.springframework.boot:spring-boot-starter-logging"
+//    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.grails:grails-core"
+//    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-dependencies"
+//    compile "org.grails:grails-web-boot"
+//    compile "org.grails.plugins:cache"
+//    compile "org.grails.plugins:scaffolding"
+    console "org.grails:grails-console"
+    profile "org.grails.profiles:web-plugin"
+//    provided "org.grails:grails-plugin-services"
+//    provided "org.grails:grails-plugin-domain-class"
+    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
+    testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.grails.plugins:geb"
+    testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
+    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+
+    compile 'au.org.ala:ala-cas-client:2.3'
+
+    runtime "org.grails.plugins:jquery:1.11.1"
+}
+
+bootRun {
+    jvmArgs('-Dspring.output.ansi.enabled=always')
+    addResources = true
+}
+// enable if you wish to package this plugin as a standalone application
+bootRepackage.enabled = false
+grailsPublish {
+
+    grailsPublish {
+//    user = 'user'
+//    key = 'key'
+//    userOrg = 'my-company' // optional, otherwise published to personal bintray account
+//    repo = 'plugins' // optional, defaults to 'plugins'
+
+        websiteUrl = 'http://github.com/AtlasOfLivingAustralia/ala-bootstrap3'
+        license {
+            name = 'MPL-2.0'
+        }
+        issueTrackerUrl = 'http://github.com/AtlasOfLivingAustralia/ala-bootstrap3/issues'
+        vcsUrl = 'http://github.com/AtlasOfLivingAustralia/ala-bootstrap3'
+        title = "ALA Bootstrap3 Plugin"
+        desc = "Plugin for adding ALA bootstrap 3 styles"
+        developers = [:]
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name 'Nexus'
+            url "https://nexus.ala.org.au/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases' }"
+            credentials {
+                username = System.getenv('TRAVIS_DEPLOY_USERNAME')
+                password = System.getenv('TRAVIS_DEPLOY_PASSWORD')
+            }
+        }
+    }
+    publications {
+        mavenJar(MavenPublication) {
+            pom.withXml {
+                def pomNode = asNode()
+                pomNode.dependencyManagement.replaceNode {}
+
+                // simply remove dependencies without a version
+                // version-less dependencies are handled with dependencyManagement
+                // see https://github.com/spring-gradle-plugins/dependency-management-plugin/issues/8 for more complete solutions
+                pomNode.dependencies.dependency.findAll {
+                    it.version.text().isEmpty()
+                }.each {
+                    it.replaceNode {}
+                }
+            }
+            from components.java
+
+        }
+    }
+}
+
+assets {
+    packagePlugin = true
+}
+
+assets {
+    packagePlugin = true
+}
