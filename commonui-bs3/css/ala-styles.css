@@ -358,7 +358,7 @@ footer {background-color: #fff;}
 .footer-bonus-brands #gbif {background-position: -5px -65px; width: 151px; height: 62px; margin: 20px 40px 75px 0;}
 /*.footer-bonus-brands #aus-govt {background-position: -10px -0px;width: 202px;height: 66px; margin: 20px 40px 72px 0;}*/
 .footer-container {padding: 30px;}
-hr.footer-border {margin: -30px 0 20px 0;border-top: 1px solid #e2e5e8;}
+hr.footer-border {margin: 30px 0 30px 0; border-top: 2px solid #333;}
 
 /* Layout control
 ================================= */
