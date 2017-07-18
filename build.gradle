@@ -11,7 +11,7 @@ buildscript {
 }
 
 version "3.0.0-SNAPSHOT"
-group "org.grails.plugin"
+group "org.grails.plugins"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -111,10 +111,6 @@ publishing {
 
         }
     }
-}
-
-assets {
-    packagePlugin = true
 }
 
 assets {
