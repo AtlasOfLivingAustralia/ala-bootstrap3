@@ -20,7 +20,7 @@
                       media="screen,print"/>
     <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
 
-    <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'jquery'}"/>
+    <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'head'}"/>
 
     <g:if test="${!grailsApplication.config.headerAndFooter.excludeApplicationJs}">
         <script type="text/javascript" src="${grailsApplication.config.headerAndFooter.baseURL}/js/application.js"
