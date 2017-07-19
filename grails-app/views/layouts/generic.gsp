@@ -13,19 +13,14 @@
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap.min.css" rel="stylesheet"
               media="screen,print"/>
     </g:if>
-    <g:if test="${!grailsApplication.config.headerAndFooter.excludeAlaStylesCss}">
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/ala-styles.css" rel="stylesheet"
-              media="screen,print"/>
-    </g:if>
 
     <asset:stylesheet src="core" media="screen,print"/>
 
-    <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print-css"}"
+    <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
                       media="screen,print"/>
-    <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core-head-css"}"/>
+    <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
 
-    <asset:javascript src="jquery"/>
-    <asset:javascript src="jquery-extensions"/>
+    <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'jquery'}"/>
 
     <g:if test="${!grailsApplication.config.headerAndFooter.excludeApplicationJs}">
         <script type="text/javascript" src="${grailsApplication.config.headerAndFooter.baseURL}/js/application.js"
@@ -35,9 +30,7 @@
         <script type="text/javascript"
                 src="${grailsApplication.config.headerAndFooter.baseURL}/js/bootstrap.min.js"></script>
     </g:if>
-
-    <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'core-head-js'}"/>
-    <asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'core-deferred-js'}" asset-defer="true"/>
+    <asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" asset-defer="" />
 
     <g:layoutHead />
 </head>

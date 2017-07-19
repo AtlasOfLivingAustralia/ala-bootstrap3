@@ -51,8 +51,6 @@ dependencies {
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
     compile 'au.org.ala:ala-cas-client:2.3'
-
-    runtime "org.grails.plugins:jquery:1.11.1"
 }
 
 bootRun {
