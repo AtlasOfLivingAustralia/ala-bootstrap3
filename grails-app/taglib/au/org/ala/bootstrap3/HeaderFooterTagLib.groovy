@@ -1,4 +1,4 @@
-package au.org.ala.regions
+package au.org.ala.bootstrap3
 
 import au.org.ala.cas.util.AuthenticationCookieUtils
 import grails.util.Holders
