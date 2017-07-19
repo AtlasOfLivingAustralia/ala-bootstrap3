@@ -14,8 +14,6 @@
               media="screen,print"/>
     </g:if>
 
-    <asset:stylesheet src="core" media="screen,print"/>
-
     <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
                       media="screen,print"/>
     <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
