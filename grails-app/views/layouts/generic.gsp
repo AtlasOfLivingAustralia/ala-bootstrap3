@@ -28,7 +28,6 @@
         <script type="text/javascript"
                 src="${grailsApplication.config.headerAndFooter.baseURL}/js/bootstrap.min.js"></script>
     </g:if>
-    <asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" asset-defer="" />
 
     <g:layoutHead />
 </head>
@@ -45,6 +44,7 @@
 
 <hf:footer/>
 
+<asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" />
 <asset:deferredScripts/>
 </body>
 </html>
