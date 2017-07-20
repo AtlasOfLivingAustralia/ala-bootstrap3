@@ -74,7 +74,7 @@ Brief summary/description of the plugin.
 
     // add default value for config.headerAndFooter.baseURL that can be overridden by client app
     private void addDefaultConfig() {
-        def value = "https://www.ala.org.au/commonui-bs43"
+        def value = "https://www.ala.org.au/commonui-bs3"
         def buildProps = new Properties()
         buildProps.setProperty("headerAndFooter.baseURL", value)
         def configSlurper = new ConfigSlurper().parse(buildProps)
