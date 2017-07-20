@@ -2,8 +2,8 @@
 <html lang="en-AU">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="app.version" content="${g.meta(name:'app.version')}"/>
-    <meta name="app.build" content="${g.meta(name:'app.build')}"/>
+    <meta name="app.version" content="${g.meta(name:'info.app.version')}"/>
+    <meta name="app.build" content="${g.meta(name:'info.app.build')}"/>
     <meta name="description" content="Atlas of Living Australia"/>
     <meta name="author" content="Atlas of Living Australia">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,8 +34,6 @@
         <script type="text/javascript"
                 src="${grailsApplication.config.headerAndFooter.baseURL}/js/bootstrap.min.js"></script>
     </g:if>
-    <asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" asset-defer="" />
-
 
     <g:layoutHead />
 
@@ -82,6 +80,7 @@
 
 <hf:footer/>
 
+<asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" />
 <asset:deferredScripts/>
 
 </body>
