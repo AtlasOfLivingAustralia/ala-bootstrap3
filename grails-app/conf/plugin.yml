@@ -1,0 +1,4 @@
+grails:
+    plugins:
+        twitterbootstrap:
+            fixtaglib: true
