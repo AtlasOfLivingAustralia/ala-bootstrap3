@@ -1,7 +1,7 @@
 // initialise plugins
 $(function(){
 
-    var autocompleteUrl = 'http://bie.ala.org.au/ws/search/auto';
+    var autocompleteUrl = 'https://bie.ala.org.au/ws/search/auto';
 
     if(typeof BIE_VARS != 'undefined' && BIE_VARS.autocompleteUrl){
         autocompleteUrl = BIE_VARS.autocompleteUrl;
@@ -39,8 +39,8 @@ $(function(){
     //        var searchTerm = $("input.general-search").val().trim();
     //        alert("Search term: " + searchTerm);
     //        if(searchTerm != ""){
-    //            console.log("redirecting to http://bie.ala.org.au/search?q=" + searchTerm);
-    //            window.location = "http://bie.ala.org.au/search?q=" + searchTerm;
+    //            console.log("redirecting to https://bie.ala.org.au/search?q=" + searchTerm);
+    //            window.location = "https://bie.ala.org.au/search?q=" + searchTerm;
     //        }
     //    }
     //});
