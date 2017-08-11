@@ -3,20 +3,11 @@ ala-bootstrap3   [![Build Status](https://travis-ci.org/AtlasOfLivingAustralia/a
 
 ## Usage
 ```
-runtime ":ala-bootstrap3:2.0.0"
-// Then ensure at least one of resources or the asset pipeline plugin is included
-// compile ":resources:1.2.14"
-// compile ":asset-pipeline:2.14.1"
+compile ":ala-bootstrap3:3.0.0-SNAPSHOT"
 ```
 
 ## Description
-This is a Grails Plugin to provide the basic set of web resources to correctly apply the **new 2015** ala web theme based on [bootstrap 3.3.4](http://getbootstrap.com)
-
-**NOTE:** this plugin supports both the resources and asset-pipeline plugins.  If the resources plugin is present as a
-dependency then the `main` and `generic` layouts will use the resources plugin by default.  This means that to use the 
-asset-pipeline to include the plugin's bundles you must ensure that the resources plugin is not included as a transitive
-dependency by any other plugins.  Use `./grailsw dependency-report` to show the full dependency graph if you're unsure
-where the resources plugin is coming from.
+This is a Grails Plugin to provide the basic set of web assets to correctly apply the **new 2017** ala web theme based on [bootstrap 3.3.4](http://getbootstrap.com)
 
 Many of its features come inherited from the [ala-boostrap2 plugin](https://github.com/AtlasOfLivingAustralia/ala-bootstrap2).
 
@@ -32,6 +23,8 @@ grails.plugins.twitterbootstrap.fixtaglib = true
 ```
 
 ## Changelog
+* Version **3.0.0** (19/07/2017)
+  * Grails 3 support
 * Version **2.0.0** (17/07/2017)
   * New 2017 design support
 * Version **1.7.0** (10/07/2017)

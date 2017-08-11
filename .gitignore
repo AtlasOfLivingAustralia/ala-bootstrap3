@@ -7,3 +7,6 @@ plugin.xml
 *.zip
 *.sha1
 .DS_Store
+
+.gradle/
+build/
