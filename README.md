@@ -1,5 +1,8 @@
 ala-bootstrap3   [![Build Status](https://travis-ci.org/AtlasOfLivingAustralia/ala-bootstrap3.svg?branch=master)](https://travis-ci.org/AtlasOfLivingAustralia/ala-bootstrap3)
 =========
+## Grails 3
+
+The Grails 3 version of this plugin can be found on the `grails3` branch of this repo.
 
 ## Usage
 ```
