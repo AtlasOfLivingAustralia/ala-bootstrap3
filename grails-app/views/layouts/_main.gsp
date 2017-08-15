@@ -7,7 +7,40 @@
     <meta name="description" content="Atlas of Living Australia"/>
     <meta name="author" content="Atlas of Living Australia">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="${grailsApplication.config.skin?.favicon?:'http://www.ala.org.au/wp-content/themes/ala2011/images/favicon.ico'}" rel="shortcut icon"  type="image/x-icon"/>
+    <!-- Favicon -->
+    <g:if test="${grailsApplication.config.skin?.favicon && grailsApplication.config.skin.favicon.contains(".ico")}">
+      <link href="${grailsApplication.config.skin.favicon}" rel="shortcut icon"  type="image/x-icon"/>
+    </g:if>
+    <g:else>
+      <link rel="mask-icon" href="//s3.feedly.com/img/feedly-icon.svg" color="#2bb24c">
+      <link rel="apple-touch-icon" sizes="57x57" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-57x57.png">
+      <link rel="apple-touch-icon" sizes="60x60" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-60x60.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="76x76" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-76x76.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-114x114.png">
+      <link rel="apple-touch-icon" sizes="120x120" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-120x120.png">
+      <link rel="apple-touch-icon" sizes="144x144" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-144x144.png">
+      <link rel="apple-touch-icon" sizes="152x152" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-152x152.png">
+      <link rel="apple-touch-icon" sizes="180x180" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-icon-180x180.png">
+      <link rel="icon" type="image/png" sizes="192x192" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/android-icon-192x192.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="96x96" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon-96x96.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon-16x16.png">
+      <link rel="manifest" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/manifest.json?v2">
+      <meta name="msapplication-TileColor" content="#ffffff">
+      <meta name="msapplication-TileImage" content="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/ms-icon-144x144.png?v2">
+      <meta name="theme-color" content="#ffffff">
+    </g:else>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/manifest.json">
+    <link rel="mask-icon" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon.ico">
+    <meta name="msapplication-config" content="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    
 
     <title><g:layoutTitle /></title>
 
