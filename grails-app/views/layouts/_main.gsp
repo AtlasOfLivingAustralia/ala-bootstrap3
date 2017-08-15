@@ -84,7 +84,7 @@
 <!-- End header -->
 <!-- Optional banner message (requires ala-admin-plugin) -->
 <plugin:isAvailable name="alaAdminPlugin">
-	<div class="${fluidLayout ? 'container-fluid' : 'container'}">
+	<div class="ala-admin-message">
         <ala:systemMessage/>
 	</div>
 </plugin:isAvailable>
