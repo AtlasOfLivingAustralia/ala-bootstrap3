@@ -28,7 +28,7 @@
       <link rel="icon" type="image/png" sizes="16x16" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon-16x16.png">
       <link rel="manifest" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/manifest.json?v2">
       <meta name="msapplication-TileColor" content="#ffffff">
-      <meta name="msapplication-TileImage" content="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/ms-icon-144x144.png?v2">
+      <meta name="msapplication-TileImage" content="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/ms-icon-144x144.png">
       <meta name="theme-color" content="#ffffff">
     </g:else>
     
