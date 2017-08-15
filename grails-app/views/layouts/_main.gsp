@@ -82,6 +82,13 @@
 <hf:banner logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
            ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
 <!-- End header -->
+<!-- Optional banner message (requires ala-admin-plugin) -->
+<plugin:isAvailable name="alaAdminPlugin">
+	<div class="${fluidLayout ? 'container-fluid' : 'container'}">
+        <ala:systemMessage/>
+	</div>
+</plugin:isAvailable>
+<!-- end banner message -->
 <!-- Breadcrumb -->
 <section id="breadcrumb">
     <div class="container">
