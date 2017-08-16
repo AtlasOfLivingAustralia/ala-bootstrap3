@@ -55,6 +55,8 @@
     <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
                       media="screen,print"/>
     <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
+    
+    <plugin:isAvailable name="alaAdminPlugin"><asset:stylesheet src="ala-admin-asset.css" /></plugin:isAvailable>
 
     <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'head'}"/>
 
