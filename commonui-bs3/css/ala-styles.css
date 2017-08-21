@@ -329,6 +329,7 @@ section#breadcrumb {padding: 12px 0 15px 19px;border-bottom: 1px solid #E7E7E7;b
 .popular-bonus-description {line-height: 22px; margin: 0 0 40px 0; padding-left: 70px;}
 
 dt {margin-top: 10px;}
+#classification dt {margin-top: 0;}
 
 article > div > dl > dt {font-size: 18px; font-weight: 500;}
 article > div > dl {margin-bottom: 50px;}
