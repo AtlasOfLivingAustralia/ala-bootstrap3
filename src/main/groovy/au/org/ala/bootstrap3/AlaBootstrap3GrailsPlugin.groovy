@@ -1,14 +1,10 @@
 package au.org.ala.bootstrap3
 
-import grails.core.GrailsApplication
 import grails.plugins.*
 import grails.util.Holders
 import org.springframework.core.env.MapPropertySource
-import org.springframework.core.env.MutablePropertySources
 
 class AlaBootstrap3GrailsPlugin extends Plugin {
-
-    def version = "3.0.0-SNAPSHOT"
 
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "3.2.11 > *"
