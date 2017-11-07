@@ -84,29 +84,34 @@
 <hf:banner logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
            ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
 <!-- End header -->
-<!-- Breadcrumb -->
-<section id="breadcrumb">
-    <div class="container">
-        <div class="row">
-            <nav aria-label="Breadcrumb" role="navigation">
-                <ol class="breadcrumb-list">
-                    <li><a href="https://www.ala.org.au/">Home</a></li>
-                    <g:if test="${pageProperty(name:'meta.breadcrumbParent')}">
-                        <g:set value="${pageProperty(name:'meta.breadcrumbParent').tokenize(',')}" var="parentArray"/>
-                        <li><a href="${parentArray[0]}">${parentArray[1]}</a></li>
-                    </g:if>
-                    <g:if test="${pageProperty(name: 'meta.breadcrumbs')}">
-                        <g:each in="${pageProperty(name: 'meta.breadcrumbs').tokenize('\\')}" var="item">
-                            <li><a href="${item.split(',', 2)[0]}">${item.split(',', 2)[1]}</a></li>
-                        </g:each>
-                    </g:if>
-                    <li class="active"><g:if test="${pageProperty(name:'meta.breadcrumb')}">${pageProperty(name:'meta.breadcrumb')}</g:if><g:else>${pageProperty(name:'title')}</g:else></li>
-                </ol>
-            </nav>
+<g:if test="${!pageProperty(name:'meta.hideBreadcrumb')}">
+    <!-- Breadcrumb -->
+    <g:set var="breadcrumbParent" value="${pageProperty(name:'meta.breadcrumbParent')}"/>
+    <g:set var="breadcrumbs" value="${pageProperty(name:'meta.breadcrumbs')}"/>
+    <g:set var="breadcrumb" value="${pageProperty(name:'meta.breadcrumb')?:pageProperty(name:'title')}"/>
+    <section id="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <nav aria-label="Breadcrumb" role="navigation">
+                    <ol class="breadcrumb-list">
+                        <li><a href="https://www.ala.org.au/">Home</a></li>
+                        <g:if test="${breadcrumbParent}">
+                            <g:set value="${breadcrumbParent.tokenize(',')}" var="parentArray"/>
+                            <li><a href="${parentArray[0]}">${parentArray[1]}</a></li>
+                        </g:if>
+                        <g:if test="${breadcrumbs}">
+                            <g:each in="${breadcrumbs.tokenize('\\')}" var="item">
+                                <li><a href="${item.split(',', 2)[0]}">${item.split(',', 2)[1]}</a></li>
+                            </g:each>
+                        </g:if>
+                        <li class="active">${breadcrumb}</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
-    </div>
-</section>
-<!-- End Breadcrumb -->
+    </section>
+    <!-- End Breadcrumb -->
+</g:if>
 <!-- Optional banner message (requires ala-admin-plugin) -->
 <plugin:isAvailable name="alaAdminPlugin">
 	<div class="ala-admin-message">
