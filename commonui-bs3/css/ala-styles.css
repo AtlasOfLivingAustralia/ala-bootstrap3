@@ -306,6 +306,7 @@ input[type="date"] {line-height: 34px;}
 /* Well
 ================================= */
 .well {min-height: 20px;padding: 19px;margin-bottom: 20px;background-color: #f5f5f5;border: 1px solid #999;border-radius: 0;}
+.well-sm {padding: 9px;}
 
 /* Pagination
 ================================= */
