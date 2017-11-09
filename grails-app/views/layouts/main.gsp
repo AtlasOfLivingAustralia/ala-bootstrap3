@@ -4,8 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="app.version" content="${g.meta(name:'app.version')}"/>
     <meta name="app.build" content="${g.meta(name:'app.build')}"/>
-    <meta name="description" content="Atlas of Living Australia"/>
-    <meta name="author" content="Atlas of Living Australia">
+    <meta name="description" content="${grailsApplication.config.skin.orgNameLong ?: 'Atlas of Living Australia'}"/>
+    <meta name="author" content="${grailsApplication.config.skin.orgNameLong ?: 'Atlas of Living Australia'}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="${grailsApplication.config.skin?.favicon?:'http://www.ala.org.au/wp-content/themes/ala2011/images/favicon.ico'}" rel="shortcut icon"  type="image/x-icon"/>
 
@@ -32,7 +32,7 @@
         <div class="row">
             <nav aria-label="Breadcrumb" role="navigation">
                 <ol class="breadcrumb-list">
-                    <li><a href="https://www.ala.org.au/">Home</a></li>
+                    <li><a href="${grailsApplication.config.ala.baseURL ?: 'https://www.ala.org.au'}">Home</a></li>
                     <g:if test="${pageProperty(name:'meta.breadcrumbParent')}">
                         <g:set value="${pageProperty(name:'meta.breadcrumbParent').tokenize(',')}" var="parentArray"/>
                         <li><a href="${parentArray[0]}">${parentArray[1]}</a></li>
