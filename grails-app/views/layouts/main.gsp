@@ -7,7 +7,7 @@
     <meta name="description" content="${grailsApplication.config.skin.orgNameLong ?: 'Atlas of Living Australia'}"/>
     <meta name="author" content="${grailsApplication.config.skin.orgNameLong ?: 'Atlas of Living Australia'}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="${grailsApplication.config.skin?.favicon?:'http://www.ala.org.au/wp-content/themes/ala2011/images/favicon.ico'}" rel="shortcut icon"  type="image/x-icon"/>
+    <link href="${grailsApplication.config.skin?.favicon?:'https://www.ala.org.au/wp-content/themes/ala2011/images/favicon.ico'}" rel="shortcut icon"  type="image/x-icon"/>
 
     <title><g:layoutTitle /></title>
 
