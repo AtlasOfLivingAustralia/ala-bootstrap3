@@ -39,19 +39,18 @@
     <link rel="shortcut icon" href="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/favicon.ico">
     <meta name="msapplication-config" content="https://www.ala.org.au/wp-content/themes/ala-wordpress-theme/img/favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    
 
     <title><g:layoutTitle /></title>
 
     <g:if test="${!grailsApplication.config.headerAndFooter.excludeBootstrapCss}">
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap.min.css" rel="stylesheet"
-              media="screen,print"/>
+        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap-theme.min.css" rel="stylesheet" media="screen,print"/>
     </g:if>
     <g:if test="${!grailsApplication.config.headerAndFooter.excludeAlaStylesCss}">
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/ala-styles.css" rel="stylesheet"
               media="screen,print"/>
     </g:if>
-
+    
     <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
                       media="screen,print"/>
     <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
