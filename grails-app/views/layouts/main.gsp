@@ -28,7 +28,7 @@
 <!-- End header -->
 <!-- Breadcrumb -->
 <section id="breadcrumb">
-    <div class="container">
+    <div class="${fluidLayout ? 'container-fluid' : 'container'}">
         <div class="row">
             <nav aria-label="Breadcrumb" role="navigation">
                 <ol class="breadcrumb-list">
