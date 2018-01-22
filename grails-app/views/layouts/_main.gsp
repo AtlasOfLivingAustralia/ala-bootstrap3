@@ -89,7 +89,7 @@
     <g:set var="breadcrumbs" value="${pageProperty(name:'meta.breadcrumbs')}"/>
     <g:set var="breadcrumb" value="${pageProperty(name:'meta.breadcrumb')?:pageProperty(name:'title')}"/>
     <section id="breadcrumb">
-        <div class="container">
+        <div class="${fluidLayout ? 'container-fluid' : 'container'}">
             <div class="row">
                 <nav aria-label="Breadcrumb" role="navigation">
                     <ol class="breadcrumb-list">
