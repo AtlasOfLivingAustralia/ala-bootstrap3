@@ -4,8 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="app.version" content="${g.meta(name:'info.app.version')}"/>
     <meta name="app.build" content="${g.meta(name:'info.app.build')}"/>
-    <meta name="description" content="Atlas of Living Australia"/>
-    <meta name="author" content="Atlas of Living Australia">
+    <meta name="description" content="${grailsApplication.config.skin?.orgNameLong?:'Atlas of Living Australia'}"/>
+    <meta name="author" content="${grailsApplication.config.skin?.orgNameLong?:'Atlas of Living Australia'}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
     <link href="${grailsApplication.config.skin.favicon}" rel="shortcut icon"  type="image/x-icon"/>
