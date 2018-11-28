@@ -10,7 +10,7 @@ The Grails 2 version of this plugin can be found on the `grails2` branch of this
 
 ## Usage
 ```
-compile ":ala-bootstrap3:3.0.0-SNAPSHOT"
+compile ":ala-bootstrap3:3.0.6"
 ```
 
 ## Description
