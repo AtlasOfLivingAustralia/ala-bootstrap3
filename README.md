@@ -2,7 +2,11 @@ ala-bootstrap3   [![Build Status](https://travis-ci.org/AtlasOfLivingAustralia/a
 =========
 ## Grails 3
 
-The Grails 3 version of this plugin can be found on the `grails3` branch of this repo.
+The Grails 3 version of this plugin can be found on the `master` branch of this repo.
+
+## Grails 2
+
+The Grails 2 version of this plugin can be found on the `grails2` branch of this repo.
 
 ## Usage
 ```
