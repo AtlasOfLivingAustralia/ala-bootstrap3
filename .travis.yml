@@ -1,13 +1,12 @@
 language: groovy
 jdk:
-- oraclejdk8
+- openjdk8
 sudo: false
 branches:
   only:
   - master
   - hotfix
-  - 2016design
-  - grails3
+  - grails2
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
