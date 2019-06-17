@@ -1,7 +1,5 @@
 <plugin:isNotAvailable name="resources">
-    <asset:stylesheet src="${pageProperty(name:'meta.head-screen-print-css') ?: "${assetPrefix}-screen-print.css"}" media="screen,print" />
-    <asset:stylesheet src="${pageProperty(name:'meta.head-css') ?: "${assetPrefix}.css"}" />
-    <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap.min.css" rel="stylesheet" media="screen,print" />
+    <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/ala.min.css" rel="stylesheet" media="screen,print" />
     <g:if test="${assetLinks}">
         <g:each var="link" in="${assetLinks}">
             <link href="${link.href}" rel="${link.rel ?: 'stylesheet' }" media="${link.media}" />

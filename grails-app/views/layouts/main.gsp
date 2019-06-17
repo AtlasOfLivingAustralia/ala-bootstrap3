@@ -24,7 +24,8 @@
 <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 <g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.skin?.fluidLayout}"/>
 <!-- Header -->
-<hf:banner logoutUrl="${g.createLink(controller:"logout", action:"logout", absolute: true)}" />
+<hf:banner logoutUrl="${g.createLink(controller:"logout", action:"logout", absolute: true)}"
+           ignoreCookie="${grailsApplication.config.ignoreCookie}" fluidLayout="${grailsApplication.config.fluidLayout}"/>
 <!-- End header -->
 <!-- Breadcrumb -->
 <section id="breadcrumb">

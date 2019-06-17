@@ -10,7 +10,6 @@
     <title><g:layoutTitle /></title>
     <g:render template="head" model="[assetPrefix: 'core', requireModule: 'bootstrap']" />
     <g:layoutHead />
-    <hf:head/>
 </head>
 <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 
