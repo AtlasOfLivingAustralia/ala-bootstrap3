@@ -5,7 +5,6 @@
 
 <!-- JS resources-->
 <plugin:isNotAvailable name="resources">
-    <script type="text/javascript" src="${grailsApplication.config.headerAndFooter.baseURL}/js/ala.min.js"></script>
     <asset:javascript src="${pageProperty(name:'meta.deferred-js') ?: "${assetPrefix}.js"}" />
     <asset:deferredScripts />
 </plugin:isNotAvailable>

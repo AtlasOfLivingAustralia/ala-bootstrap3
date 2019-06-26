@@ -11,7 +11,7 @@
 
     <title><g:layoutTitle /></title>
 
-    <g:render template="/layouts/head" model="${[assetPrefix: 'ala', assetLinks: [[href: "${grailsApplication.config.headerAndFooter.baseURL}/css/ala-styles.css", media: 'screen,print']], requireModule: 'ala']}" />
+    <g:render template="/layouts/head" model="${[requireModule: 'core']}" />
     <g:layoutHead />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
