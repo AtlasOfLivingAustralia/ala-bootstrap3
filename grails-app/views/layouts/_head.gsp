@@ -6,5 +6,5 @@
 </plugin:isNotAvailable>
 <plugin:isAvailable name="resources">
     <r:require modules="${requireModule}"/>
-    <r:layoutResources/>
+    <r:layoutResources disposition="head"/>
 </plugin:isAvailable>
