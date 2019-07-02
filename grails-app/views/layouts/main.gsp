@@ -11,7 +11,15 @@
 
     <title><g:layoutTitle /></title>
 
-    <g:render template="/layouts/head" model="${[requireModule: 'core']}" />
+    <g:render template="/layouts/head"
+              model="${[assetPrefix: 'ala', assetLinks:
+                      [[href: "${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap.min.css", media: 'screen,print'],
+                       [href: "${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap-theme.min.css", media: 'screen,print'],
+                       [href: "${grailsApplication.config.headerAndFooter.baseURL}/css/font-awesome.min.css", media: 'screen,print'],
+                       [href: "${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete.min.css", media: 'screen,print'],
+                       [href: "${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete-extra.min.css", media: 'screen,print'],
+                       [href: "${grailsApplication.config.headerAndFooter.baseURL}/css/ala-styles.min.css", media: 'screen,print'],
+                       [href: "${grailsApplication.config.headerAndFooter.baseURL}/css/ala-theme.min.css", media: 'screen,print']], requireModule: 'ala']}" />
     <g:layoutHead />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

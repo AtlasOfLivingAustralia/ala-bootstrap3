@@ -81,7 +81,9 @@ class HeaderFooterTagLib {
      */
     def hfCache = [
             banner: [timestamp: new Date().time, content: ""],
-            footer: [timestamp: new Date().time, content: ""]
+            menu: [timestamp: new Date().time, content: ""],
+            footer: [timestamp: new Date().time, content: ""],
+            head: [timestamp: new Date().time, content: ""]
     ]
 
     /**
@@ -150,7 +152,7 @@ class HeaderFooterTagLib {
      * @return
      */
     String getContent(which) {
-        def url = headerAndFooterBaseURL + '/html/' + which + ".html" // Bootstrap versions
+        def url = headerAndFooterBaseURL + '/' + which + ".html" // Bootstrap versions
         def conn = new URL(url).openConnection()
         try {
             conn.setConnectTimeout(10000)
@@ -173,6 +175,35 @@ class HeaderFooterTagLib {
      * @return
      */
     String transform(content, attrs) {
+        switch (Integer.parseInt(Holders.config.headerAndFooter.version ?: 1) ) {
+            case 1:
+                retrun transformV1(content, attrs)
+            case 2:
+                return transformV2(content, attrs)
+        }
+    }
+
+    /**
+     * Builds the login or logout link based on current login status.
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String buildLoginoutLink(attrs) {
+        switch (Integer.parseInt(Holders.config.headerAndFooter.version ?: 1) ) {
+            case 1:
+                return buildLoginoutLinkV1(attrs)
+            case 2:
+                return buildLoginoutLinkV2(attrs)
+        }
+    }
+
+    /**
+     * Does the appropriate substitutions on the included content.
+     * @param content
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String transformV2(content, attrs) {
         content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
         content = content.replaceAll(/::centralServer::/, alaBaseURL)
         content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
@@ -198,7 +229,7 @@ class HeaderFooterTagLib {
      * @param attrs any specified params to override defaults
      * @return
      */
-    String buildLoginoutLink(attrs) {
+    String buildLoginoutLinkV2(attrs) {
         def requestUri = removeContext(grailServerURL) + request.forwardURI
         def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
         def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
@@ -217,6 +248,60 @@ class HeaderFooterTagLib {
         } else {
             // currently logged out
             return "<a href='${buildLoginLink(attrs)}' class='btn btn-primary btn-sm'>Login</a>"
+        }
+    }
+
+
+    /**
+     * @deprecated
+     * Adding this function for backward compatibility with Living Atlases.
+     * Does the appropriate substitutions on the included content.
+     * @param content
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String transformV1(content, attrs) {
+        content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
+        content = content.replaceAll(/::centralServer::/, alaBaseURL)
+        content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
+        content = content.replaceAll(/::searchPath::/, bieSearchPath)
+        content = content.replaceAll(/::authStatusClass::/, isLoggedIn(attrs) ? LOGGED_IN_CLASS: LOGGED_OUT_CLASS)
+        if (attrs.fluidLayout) {
+            content = content.replaceAll('class="container"', 'class="container-fluid"')
+        }
+        if (content =~ "::loginLogoutListItem::") {
+            // only do the work if it is needed
+            content = content.replaceAll(/::loginLogoutListItem::/, buildLoginoutLink(attrs))
+        }
+        return content
+    }
+
+    /**
+     * @deprecated
+     * Adding this function for backward compatibility with Living Atlases.
+     * Builds the login or logout link based on current login status.
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String buildLoginoutLinkV1(attrs) {
+        def requestUri = removeContext(grailServerURL) + request.forwardURI
+        def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
+        def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
+        def casLogoutUrl = attrs.casLogoutUrl ?: casLogoutUrl
+
+        // TODO should this be attrs.logoutReturnToUrl?
+        if (!attrs.loginReturnToUrl && request.queryString) {
+            logoutReturnToUrl += "?" + URLEncoder.encode(request.queryString, "UTF-8")
+        }
+
+        if (isLoggedIn(attrs)) {
+            return "<a href='${logoutUrl}" +
+                    "?casUrl=${casLogoutUrl}" +
+                    "&appUrl=${logoutReturnToUrl}' " +
+                    "class='${attrs.cssClass}'>Logout</a>"
+        } else {
+            // currently logged out
+            return "<a href='${buildLoginLink(attrs)}' class='${attrs.cssClass}'><span>Log in</span></a>"
         }
     }
 

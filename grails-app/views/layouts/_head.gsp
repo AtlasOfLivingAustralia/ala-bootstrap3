@@ -1,8 +1,11 @@
 <plugin:isNotAvailable name="resources">
-    <asset:stylesheet src="${pageProperty(name:'meta.head-screen-print-css') ?: "${assetPrefix}-screen-print.css"}" media="screen,print" />
-    <asset:stylesheet src="${pageProperty(name:'meta.head-css') ?: "${assetPrefix}.css"}" />
-    <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/ala.min.css" rel="stylesheet" media="screen,print" />
-    <script type="text/javascript" src="${grailsApplication.config.headerAndFooter.baseURL}/js/ala.min.js"></script>
+    <g:if test="${assetLinks}">
+        <g:each var="link" in="${assetLinks}">
+            <link href="${link.href}" rel="${link.rel ?: 'stylesheet' }" media="${link.media}" />
+        </g:each>
+    </g:if>
+    <asset:javascript src="${grailsApplication.config.headerAndFooter.baseURL}/js/jquery.min.js" />
+    <asset:javascript src="${grailsApplication.config.headerAndFooter.baseURL}/js/autocomplete.min.js" />
 </plugin:isNotAvailable>
 <plugin:isAvailable name="resources">
     <r:require modules="${requireModule}"/>
