@@ -177,7 +177,7 @@ class HeaderFooterTagLib {
     String transform(content, attrs) {
         switch (Integer.parseInt(Holders.config.headerAndFooter.version ?: 1) ) {
             case 1:
-                retrun transformV1(content, attrs)
+                return transformV1(content, attrs)
             case 2:
                 return transformV2(content, attrs)
         }

@@ -1,1 +1,1 @@
-//= require jquery-migrate-1.2.1.min.js
+//= require jquery-migration.min.js
