@@ -175,11 +175,12 @@ class HeaderFooterTagLib {
      * @return
      */
     String transform(content, attrs) {
-        switch (Integer.parseInt(Holders.config.headerAndFooter.version ?: 1) ) {
-            case 1:
-                return transformV1(content, attrs)
-            case 2:
+        switch ( Holders.config.headerAndFooter.version ) {
+            case "2":
                 return transformV2(content, attrs)
+            case "1":
+            default:
+                return transformV1(content, attrs)
         }
     }
 
@@ -189,11 +190,12 @@ class HeaderFooterTagLib {
      * @return
      */
     String buildLoginoutLink(attrs) {
-        switch (Integer.parseInt(Holders.config.headerAndFooter.version ?: 1) ) {
-            case 1:
-                return buildLoginoutLinkV1(attrs)
-            case 2:
+        switch ( Holders.config.headerAndFooter.version ) {
+            case "2":
                 return buildLoginoutLinkV2(attrs)
+            case "1":
+            default:
+                return buildLoginoutLinkV1(attrs)
         }
     }
 
