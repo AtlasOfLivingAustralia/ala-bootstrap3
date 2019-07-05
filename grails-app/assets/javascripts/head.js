@@ -1,1 +1,1 @@
-//= require jquery-1.12.4.js
+//= require jquery-3.4.1.min.js

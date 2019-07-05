@@ -156,7 +156,7 @@ class HeaderFooterTagLib {
     String getContent(which) {
 
 
-        def url = headerAndFooterBaseURL + '/html/' + which + ".html" // Bootstrap versions
+        def url = headerAndFooterBaseURL + '/' + which + ".html" // Bootstrap versions
         def conn = new URL(url).openConnection()
         try {
             conn.setConnectTimeout(10000)
@@ -177,6 +177,45 @@ class HeaderFooterTagLib {
      * @return
      */
     String transform(content, attrs) {
+        switch ( Holders.config.headerAndFooter.version ) {
+            case "2":
+                return transformV2(content, attrs)
+            case "1":
+            default:
+                return transformV1(content, attrs)
+        }
+    }
+
+    /**
+     * @deprecated
+     * Does the appropriate substitutions on the included content.
+     * @param content
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String transformV1(content, attrs) {
+        content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
+        content = content.replaceAll(/::centralServer::/, alaBaseURL)
+        content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
+        content = content.replaceAll(/::searchPath::/, bieSearchPath)
+        content = content.replaceAll(/::authStatusClass::/, isLoggedIn(attrs) ? LOGGED_IN_CLASS: LOGGED_OUT_CLASS)
+        if (attrs.fluidLayout) {
+            content = content.replaceAll('class="container"', 'class="container-fluid"')
+        }
+        if (content =~ "::loginLogoutListItem::") {
+            // only do the work if it is needed
+            content = content.replaceAll(/::loginLogoutListItem::/, buildLoginoutLink(attrs))
+        }
+        return content
+    }
+
+    /**
+     * Does the appropriate substitutions on the included content.
+     * @param content
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String transformV2(content, attrs) {
         content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
         content = content.replaceAll(/::centralServer::/, alaBaseURL)
         content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
@@ -209,6 +248,49 @@ class HeaderFooterTagLib {
      * @return
      */
     String buildLoginoutLink(attrs) {
+        switch ( Holders.config.headerAndFooter.version ) {
+            case "2":
+                return buildLoginoutLinkV2(attrs)
+            case "1":
+            default:
+                return buildLoginoutLinkV1(attrs)
+        }
+    }
+
+    /**
+     * @deprecated
+     * Builds the login or logout link based on current login status.
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String buildLoginoutLinkV1(attrs) {
+        def requestUri = removeContext(grailServerURL) + request.forwardURI
+        def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
+        def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
+        def casLogoutUrl = attrs.casLogoutUrl ?: casLogoutUrl
+
+        // TODO should this be attrs.logoutReturnToUrl?
+        if (!attrs.loginReturnToUrl && request.queryString) {
+            logoutReturnToUrl += "?" + URLEncoder.encode(request.queryString, "UTF-8")
+        }
+
+        if (isLoggedIn(attrs)) {
+            return "<a href='${logoutUrl}" +
+                    "?casUrl=${casLogoutUrl}" +
+                    "&appUrl=${logoutReturnToUrl}' " +
+                    "class='${attrs.cssClass}'>Logout</a>"
+        } else {
+            // currently logged out
+            return "<a href='${buildLoginLink(attrs)}' class='${attrs.cssClass}'>Log in</a>"
+        }
+    }
+
+    /**
+     * Builds the login or logout link based on current login status.
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String buildLoginoutLinkV2(attrs) {
         def requestUri = removeContext(grailServerURL) + request.forwardURI
         def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
         def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
