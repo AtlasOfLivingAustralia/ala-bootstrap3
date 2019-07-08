@@ -220,19 +220,18 @@ class HeaderFooterTagLib {
         content = content.replaceAll(/::centralServer::/, alaBaseURL)
         content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
         content = content.replaceAll(/::searchPath::/, bieSearchPath)
-        content = content.replaceAll(/::authStatusClass::/, isLoggedIn(attrs) ? LOGGED_IN_CLASS: LOGGED_OUT_CLASS)
+
         if ((attrs.fluidLayout?:"true").toBoolean()) {
             content = content.replaceAll('::containerClass::', "container-fluid")
         } else {
             content = content.replaceAll('::containerClass::', "container")
         }
-        if (content =~ "::loginURL::") {
-            // only do the work if it is needed
-            def signedInOutClass = isLoggedIn(attrs) ? 'signedIn' : 'signedOut'
-            content = content.replaceAll(/::loginURL::/, buildLoginLink(attrs))
-            content = content.replaceAll(/::logoutURL::/, buildLogoutLink(attrs))
-            content = content.replaceAll(/::loginStatus::/, signedInOutClass)
-        }
+
+        def signedInOutClass = isLoggedIn(attrs) ? 'signedIn' : 'signedOut'
+        content = content.replaceAll(/::loginURL::/, buildLoginLink(attrs))
+        content = content.replaceAll(/::logoutURL::/, buildLogoutLink(attrs))
+        content = content.replaceAll(/::loginStatus::/, signedInOutClass)
+
         return content
     }
 
