@@ -20,13 +20,15 @@
               media="screen,print"/>
     </g:if>
 
-    <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
-                      media="screen,print"/>
     <g:if test="${grailsApplication.config.headerAndFooter.version == '1'}">
-        <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>    </g:if>
+        <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
+        <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
+                          media="screen,print"/>
+    </g:if>
     <g:elseif test="${grailsApplication.config.headerAndFooter.version == '2'}">
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete.min.css" rel="stylesheet" media="screen,print"/>
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete-extra.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/font-awesome.min.css" rel="stylesheet" media="screen,print"/>
     </g:elseif>
 
 
