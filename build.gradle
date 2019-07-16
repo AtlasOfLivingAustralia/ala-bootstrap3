@@ -50,7 +50,7 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
-    compile 'au.org.ala:ala-cas-client:2.3'
+    compile 'au.org.ala:ala-cas-client:2.5'
 }
 
 bootRun {
