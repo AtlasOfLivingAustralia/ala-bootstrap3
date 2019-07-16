@@ -3,7 +3,6 @@ package au.org.ala.bootstrap3
 import au.org.ala.cas.util.AuthenticationCookieUtils
 import grails.util.Holders
 import grails.util.TypeConvertingMap
-import org.grails.plugins.web.taglib.UrlMappingTagLib
 import org.springframework.web.servlet.support.RequestContextUtils
 
 class HeaderFooterTagLib {
@@ -75,8 +74,8 @@ class HeaderFooterTagLib {
      *
      * Usage: <hf:footer/>
      */
-    def footer = {
-        out << load('footer', [:])
+    def footer = { attrs ->
+        out << load('footer', attrs)
     }
 
     /**
@@ -178,6 +177,23 @@ class HeaderFooterTagLib {
      * @return
      */
     String transform(content, attrs) {
+        switch ( Holders.config.headerAndFooter.version ) {
+            case "2":
+                return transformV2(content, attrs)
+            case "1":
+            default:
+                return transformV1(content, attrs)
+        }
+    }
+
+    /**
+     * @deprecated
+     * Does the appropriate substitutions on the included content.
+     * @param content
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String transformV1(content, attrs) {
         content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
         content = content.replaceAll(/::centralServer::/, alaBaseURL)
         content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
@@ -193,6 +209,32 @@ class HeaderFooterTagLib {
         return content
     }
 
+    /**
+     * Does the appropriate substitutions on the included content.
+     * @param content
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String transformV2(content, attrs) {
+        content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
+        content = content.replaceAll(/::centralServer::/, alaBaseURL)
+        content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
+        content = content.replaceAll(/::searchPath::/, bieSearchPath)
+
+        if ((attrs.fluidLayout?:"true").toBoolean()) {
+            content = content.replaceAll('::containerClass::', "container-fluid")
+        } else {
+            content = content.replaceAll('::containerClass::', "container")
+        }
+
+        def signedInOutClass = isLoggedIn(attrs) ? 'signedIn' : 'signedOut'
+        content = content.replaceAll(/::loginURL::/, buildLoginLink(attrs))
+        content = content.replaceAll(/::logoutURL::/, buildLogoutLink(attrs))
+        content = content.replaceAll(/::loginStatus::/, signedInOutClass)
+
+        return content
+    }
+
     boolean isLoggedIn(attrs) {
         (attrs.ignoreCookie != "true" &&
                 AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) ||
@@ -205,6 +247,22 @@ class HeaderFooterTagLib {
      * @return
      */
     String buildLoginoutLink(attrs) {
+        switch ( Holders.config.headerAndFooter.version ) {
+            case "2":
+                return buildLoginoutLinkV2(attrs)
+            case "1":
+            default:
+                return buildLoginoutLinkV1(attrs)
+        }
+    }
+
+    /**
+     * @deprecated
+     * Builds the login or logout link based on current login status.
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String buildLoginoutLinkV1(attrs) {
         def requestUri = removeContext(grailServerURL) + request.forwardURI
         def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
         def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
@@ -227,6 +285,33 @@ class HeaderFooterTagLib {
     }
 
     /**
+     * Builds the login or logout link based on current login status.
+     * @param attrs any specified params to override defaults
+     * @return
+     */
+    String buildLoginoutLinkV2(attrs) {
+        def requestUri = removeContext(grailServerURL) + request.forwardURI
+        def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
+        def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
+        def casLogoutUrl = attrs.casLogoutUrl ?: casLogoutUrl
+
+        // TODO should this be attrs.logoutReturnToUrl?
+        if (!attrs.loginReturnToUrl && request.queryString) {
+            logoutReturnToUrl += "?" + URLEncoder.encode(request.queryString, "UTF-8")
+        }
+
+        if (isLoggedIn(attrs)) {
+            return "<a href='${logoutUrl}" +
+                    "?casUrl=${casLogoutUrl}" +
+                    "&appUrl=${logoutReturnToUrl}' " +
+                    "class='btn btn-outline-white btn-sm'>Logout</a>"
+        } else {
+            // currently logged out
+            return "<a href='${buildLoginLink(attrs)}' class='btn btn-primary btn-sm'>Login</a>"
+        }
+    }
+
+    /**
      * Build the login link
      * @param attrs any specified params to override defaults
      * @return The login url
@@ -236,6 +321,19 @@ class HeaderFooterTagLib {
         def loginReturnToUrl = attrs.loginReturnToUrl ?: (removeContext(grailServerURL) + request.forwardURI + (request.queryString ? "?" + URLEncoder.encode(request.queryString, "UTF-8") : ""))
         String loginUrl = "${casLoginUrl}?service=${loginReturnToUrl}"
         return loginUrl
+    }
+
+    /**
+     * Build the logout link
+     * @param attrs any specified params to override defaults
+     * @return The logout url
+     */
+    String buildLogoutLink(attrs) {
+        def requestUri = removeContext(grailServerURL) + request.forwardURI
+        def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
+        def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
+        String url = "${logoutUrl}?casUrl=${casLogoutUrl}&appUrl=${logoutReturnToUrl}"
+        return url
     }
 
     /**

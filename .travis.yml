@@ -6,6 +6,9 @@ branches:
   only:
   - master
   - hotfix
+  - 2016design
+  - grails3
+  - pivotal
   - grails2
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

@@ -11,7 +11,6 @@
     <link href="${grailsApplication.config.skin.favicon}" rel="shortcut icon"  type="image/x-icon"/>
 
     <title><g:layoutTitle /></title>
-
     <g:if test="${!grailsApplication.config.headerAndFooter.excludeBootstrapCss}">
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap-theme.min.css" rel="stylesheet" media="screen,print"/>
@@ -20,14 +19,33 @@
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/ala-styles.css" rel="stylesheet"
               media="screen,print"/>
     </g:if>
-    
-    <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
-                      media="screen,print"/>
-    <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
-    
+
+    <g:if test="${grailsApplication.config.headerAndFooter.version == '1'}">
+        <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
+        <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
+                          media="screen,print"/>
+    </g:if>
+    <g:elseif test="${grailsApplication.config.headerAndFooter.version == '2'}">
+        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete-extra.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/font-awesome.min.css" rel="stylesheet" media="screen,print"/>
+    </g:elseif>
+
+
     <plugin:isAvailable name="alaAdminPlugin"><asset:stylesheet src="ala-admin-asset.css" /></plugin:isAvailable>
 
-    <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'head'}"/>
+    <g:if test="${grailsApplication.config.headerAndFooter.version == '1'}">
+        <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'head'}"/>
+        <asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" />
+    </g:if>
+    <g:elseif test="${grailsApplication.config.headerAndFooter.version == '2'}">
+        <script type="text/javascript"
+                src="${grailsApplication.config.headerAndFooter.baseURL}/js/jquery.min.js"></script>
+        <script type="text/javascript"
+                src="${grailsApplication.config.headerAndFooter.baseURL}/js/jquery-migration.min.js"></script>
+        <script type="text/javascript"
+                src="${grailsApplication.config.headerAndFooter.baseURL}/js/autocomplete.min.js"></script>
+    </g:elseif>
 
     <g:if test="${!grailsApplication.config.headerAndFooter.excludeApplicationJs}">
         <script type="text/javascript" src="${grailsApplication.config.headerAndFooter.baseURL}/js/application.js"
@@ -37,9 +55,7 @@
         <script type="text/javascript"
                 src="${grailsApplication.config.headerAndFooter.baseURL}/js/bootstrap.min.js"></script>
     </g:if>
-
     <g:layoutHead />
-
     <hf:head/>
 
 </head>
@@ -47,7 +63,7 @@
 <g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.getProperty('skin.fluidLayout', Boolean, false)}"/>
 <!-- Header -->
 <hf:banner logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
-           ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
+           ignoreCookie="${grailsApplication.config.ignoreCookie}" fluidLayout="${grailsApplication.config.fluidLayout}"/>
 <!-- End header -->
 <g:if test="${!pageProperty(name:'meta.hideBreadcrumb')}">
     <!-- Breadcrumb -->
@@ -89,9 +105,9 @@
     <g:layoutBody />
 </div><!-- End container #main col -->
 
-<hf:footer/>
+<hf:footer logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
+           ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
 
-<asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" />
 <asset:deferredScripts/>
 
 </body>

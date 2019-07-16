@@ -43,7 +43,8 @@
     <g:layoutBody />
 </div><!-- End container #main col -->
 
-<hf:footer/>
+<hf:footer logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
+           ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
 
 <asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" />
 <asset:deferredScripts/>
