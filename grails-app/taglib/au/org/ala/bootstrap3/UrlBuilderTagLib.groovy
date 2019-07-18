@@ -75,7 +75,7 @@ class UrlBuilderTagLib {
      * @return The build URL as a String
      */
     Closure createLink = { attrs ->
-        return doCreateLink(attrs instanceof Map ? attrs: Collections.emptyMap()).toString()
+        return doCreateLink(attrs instanceof Map ? attrs: Collections.emptyMap()).encode().toUriString()
     }
 
     UriComponents doCreateLink(Map attrs) {

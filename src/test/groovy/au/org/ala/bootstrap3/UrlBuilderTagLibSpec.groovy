@@ -23,7 +23,7 @@ class UrlBuilderTagLibSpec extends Specification {
         given:
         def base = 'https://example.org:99'
         def paths = ['a','b','c', '{id}']
-        def params = ['a':1,'b':2]
+        def params = ['a':'{id}','b':'&="#']
         def vars = [id: 'd']
         def fragment = 'name'
 
@@ -31,10 +31,10 @@ class UrlBuilderTagLibSpec extends Specification {
         def path = '/a/b/c/{id}/'
 
         expect:
-        tagLib.createLink(base: base, paths: paths, params: params, vars: vars, fragment: fragment) == 'https://example.org:99/a/b/c/d?a=1&b=2#name'
-        tagLib.createLink(base: base2, paths: path, params: params, vars: vars, fragment: fragment) == 'https://example.org:99/a/b/c/d/?c=3&a=1&b=2#name'
-        tagLib.createLink(baseProperty: 'someUrl.baseUrl', paths: paths, params: params, vars: vars) == 'https://example.org/a/b/c/d?a=1&b=2'
-        tagLib.createLink(baseProperty: 'someUrl.noTrailing', paths: 'a/b/c/{id}', params: params, vars: vars, fragment: fragment) == 'https://example.org/a/b/c/d?a=1&b=2#name'
+        tagLib.createLink(base: base, paths: paths, params: params, vars: vars, fragment: fragment) == 'https://example.org:99/a/b/c/d?a=d&b=%26%3D%22%23#name'
+        tagLib.createLink(base: base2, paths: path, params: params, vars: vars, fragment: fragment) == 'https://example.org:99/a/b/c/d/?c=3&a=d&b=%26%3D%22%23#name'
+        tagLib.createLink(baseProperty: 'someUrl.baseUrl', paths: paths, params: params, vars: vars) == 'https://example.org/a/b/c/d?a=d&b=%26%3D%22%23'
+        tagLib.createLink(baseProperty: 'someUrl.noTrailing', paths: 'a/b/c/{id}', params: params, vars: vars, fragment: fragment) == 'https://example.org/a/b/c/d?a=d&b=%26%3D%22%23#name'
         tagLib.createLink(baseProperty: 'someUrl.noTrailing', pathsProperty: 'someUrl.pathsList', vars: vars) == 'https://example.org/a/d'
     }
 
