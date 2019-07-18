@@ -20,12 +20,14 @@
               media="screen,print"/>
     </g:if>
 
-    <g:if test="${grailsApplication.config.headerAndFooter.version == '1'}">
+    <g:set var="hfVersion" value="${grailsApplication.config.getProperty('headerAndFooter.version', Integer, 1)}" />
+
+    <g:if test="${hfVersion == 1}">
         <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
         <asset:stylesheet src="${pageProperty(name: 'meta.head-screen-print-css') ?: "core-screen-print"}"
                           media="screen,print"/>
     </g:if>
-    <g:elseif test="${grailsApplication.config.headerAndFooter.version == '2'}">
+    <g:elseif test="${hfVersion == 2}">
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete.min.css" rel="stylesheet" media="screen,print"/>
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete-extra.min.css" rel="stylesheet" media="screen,print"/>
         <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/font-awesome.min.css" rel="stylesheet" media="screen,print"/>
@@ -34,11 +36,11 @@
 
     <plugin:isAvailable name="alaAdminPlugin"><asset:stylesheet src="ala-admin-asset.css" /></plugin:isAvailable>
 
-    <g:if test="${grailsApplication.config.headerAndFooter.version == '1'}">
+    <g:if test="${hfVersion == 1}">
         <asset:javascript src="${pageProperty(name: 'meta.head-js') ?: 'head'}"/>
         <asset:javascript src="${pageProperty(name: 'meta.deferred-js') ?: 'jquery-extensions'}" />
     </g:if>
-    <g:elseif test="${grailsApplication.config.headerAndFooter.version == '2'}">
+    <g:elseif test="${hfVersion == 2}">
         <script type="text/javascript"
                 src="${grailsApplication.config.headerAndFooter.baseURL}/js/jquery.min.js"></script>
         <script type="text/javascript"
