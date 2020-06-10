@@ -77,7 +77,7 @@
             <div class="row">
                 <nav aria-label="Breadcrumb" role="navigation">
                     <ol class="breadcrumb-list">
-                        <li><a href="${grailsApplication.config.skin?.homeUrl?:'https://www.ala.org.au'}">Home</a></li>
+                        <li><a href="${grailsApplication.config.skin?.homeUrl?:'https://www.ala.org.au'}"><g:message code="breadcrumb.home" default="Home"/></a></li>
                         <g:if test="${breadcrumbParent}">
                             <g:set value="${breadcrumbParent.tokenize(',')}" var="parentArray"/>
                             <li><a href="${parentArray[0]}">${parentArray[1]}</a></li>
