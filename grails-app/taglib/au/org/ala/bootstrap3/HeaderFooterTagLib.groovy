@@ -137,13 +137,15 @@ class HeaderFooterTagLib {
      * @return
      */
     String load(which, attrs) {
-        def content
-        if (hfCache[which].content == "" || (new Date().time > hfCache[which].timestamp + cacheTimeout)) {
-            content = getContent(which)
-            hfCache[which].content = content
-            hfCache[which].timestamp = new Date().time
-        } else {
-            content = hfCache[which].content
+        String newContent
+        String content = hfCache[which].content
+        if (content == "" || (new Date().time > hfCache[which].timestamp + cacheTimeout)) {
+            newContent = getContent(which)
+            if (newContent) {
+                hfCache[which].content = newContent
+                hfCache[which].timestamp = new Date().time
+                content = newContent
+            }
         }
         return transform(content, attrs)
     }
@@ -154,8 +156,6 @@ class HeaderFooterTagLib {
      * @return
      */
     String getContent(which) {
-
-
         def url = headerAndFooterBaseURL + '/' + which + ".html" // Bootstrap versions
         def conn = new URL(url).openConnection()
         try {
