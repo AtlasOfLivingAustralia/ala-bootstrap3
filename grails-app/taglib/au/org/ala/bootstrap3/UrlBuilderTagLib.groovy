@@ -1,9 +1,8 @@
 package au.org.ala.bootstrap3
 
-import org.springframework.web.util.UriComponents
-import org.springframework.web.util.UriComponentsBuilder
-
 class UrlBuilderTagLib {
+
+    TagLinkService tagLinkService
 
     static namespace = 'u'
     static defaultEncodeAs = [taglib:'html']
@@ -36,7 +35,7 @@ class UrlBuilderTagLib {
      * @attr elementId DOM element id
      * @return The build URL as a String
      */
-    Closure link = { attrs, body ->
+    def link = { attrs, body ->
 
         def writer = getOut()
         def elementId = attrs.remove('elementId')
@@ -74,36 +73,17 @@ class UrlBuilderTagLib {
      * @attr vars Spring URI template variable substitutions
      * @return The build URL as a String
      */
-    Closure createLink = { attrs ->
-        return doCreateLink(attrs instanceof Map ? attrs: Collections.emptyMap()).encode().toUriString()
-    }
+    def createLink = { attrs ->
+        def attrsMap = attrs instanceof Map ? attrs : Collections.emptyMap()
+        final baseProperty = attrsMap.remove('baseProperty') as String
+        final base = baseProperty ? grailsApplication.config.getProperty(baseProperty) : attrsMap.remove('base') as String
+        final pathsProperty = attrsMap.remove('pathsProperty')
+        final paths = pathsProperty ? grailsApplication.config.get(pathsProperty) : attrsMap.remove('paths')
+        final params = attrsMap.remove('params') as Map<String, ?>
+        final vars = attrsMap.remove('vars') as Map<String, ?>
+        final fragment = attrsMap.remove('fragment') as String
 
-    UriComponents doCreateLink(Map attrs) {
-        final baseProperty = attrs.remove('baseProperty')
-        final base = baseProperty ? grailsApplication.config.getProperty(baseProperty) : attrs.remove('base')
-        final pathsProperty = attrs.remove('pathsProperty')
-        final paths = pathsProperty ? grailsApplication.config.get(pathsProperty) : attrs.remove('paths')
-        final params = attrs.remove('params')
-        final vars = attrs.remove('vars')
-        final fragment = attrs.remove('fragment')
-
-        def builder = UriComponentsBuilder.fromHttpUrl(base)
-        if (paths) {
-            if (paths instanceof CharSequence) {
-                builder = builder.path(paths)
-            } else if (paths instanceof Collection) {
-                builder = builder.pathSegment(*paths)
-            } else {
-                builder = builder.path(paths)
-            }
-        }
-        if (params) {
-            builder = params.inject(builder) { UriComponentsBuilder b, param -> b.queryParam(param.key, param.value) }
-        }
-        if (fragment) {
-            builder = builder.fragment(fragment)
-        }
-
-        return vars ? builder.buildAndExpand(vars) : builder.build()
+        def recognisedPaths = paths instanceof Collection ? (paths?.toList() ?: []) : [paths]
+        return tagLinkService.buildUri(base, recognisedPaths, params, fragment, vars)
     }
 }
