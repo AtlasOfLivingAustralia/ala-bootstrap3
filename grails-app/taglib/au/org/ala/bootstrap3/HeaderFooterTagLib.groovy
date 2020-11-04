@@ -1,33 +1,15 @@
 package au.org.ala.bootstrap3
 
-import au.org.ala.cas.util.AuthenticationCookieUtils
-import grails.util.Holders
 import grails.util.TypeConvertingMap
 import org.springframework.web.servlet.support.RequestContextUtils
 
 class HeaderFooterTagLib {
 
+    TagLinkService tagLinkService
+    def messageSource
+
     static namespace = 'hf'     // namespace for headers and footers
     static returnObjectForTags = ['createLoginUrl']
-
-    static LOGGED_IN_CLASS = 'logged-in'
-    static LOGGED_OUT_CLASS = 'not-logged-in'
-
-    /**
-     * All the following statics can be overridden by the specified config declarations.
-     *
-     * The banner include assumes that ala-cas-client exists in the app library.
-     */
-
-    def alaBaseURL = Holders.config.ala.baseURL ?: "https://www.ala.org.au"
-    def bieBaseURL = Holders.config.bie.baseURL ?: "https://bie.ala.org.au"
-    def grailServerURL = Holders.config.grails.serverURL ?: "http://bie.ala.org.au"
-    def bieSearchPath = Holders.config.bie.searchPath ?: "/search"
-    def headerAndFooterBaseURL = Holders.config.headerAndFooter.baseURL ?: "https://www.ala.org.au/commonui-bs3"
-    // the next two can also be overridden by tag attributes
-    def casLoginUrl = Holders.config.security.cas.loginUrl ?: "https://auth.ala.org.au/cas/login"
-    def casLogoutUrl = Holders.config.security.cas.logoutUrl ?: "https://auth.ala.org.au/cas/logout"
-    def cacheTimeout = (Holders.config.headerAndFooter.cacheTimeout ?: '1800000').toLong()
 
     /**
      * Display the page banner. Includes login/logout link and search box.
@@ -45,14 +27,15 @@ class HeaderFooterTagLib {
      * @attr fluidLayout - if true the BS CSS class of "container" is changed to "container-fluid"
      */
     def banner = { attrs ->
-        out << load('banner', attrs)
+        out << tagLinkService.load('banner', request, attrs)
     }
 
     /**
-     *
+     * Display the head page fragment.
+     * TODO: is this supposed to work?
      */
     def head = {
-        out << load('head', [:])
+        out << tagLinkService.load('head', request, [:])
     }
 
     /**
@@ -66,7 +49,7 @@ class HeaderFooterTagLib {
      * @attr fluidLayout - if true the BS CSS class of "container" is changed to "container-fluid"
      */
     def menu = { attrs ->
-        out << load('menu', attrs)
+        out << tagLinkService.load('menu', request, attrs)
     }
 
     /**
@@ -75,25 +58,14 @@ class HeaderFooterTagLib {
      * Usage: <hf:footer/>
      */
     def footer = { attrs ->
-        out << load('footer', attrs)
+        out << tagLinkService.load('footer', request, attrs)
     }
-
-    /**
-     * Cache for includes. Expires after 30 mins or when clearCache is called.
-     */
-    def hfCache = [
-            banner: [timestamp: new Date().time, content: ""],
-            menu: [timestamp: new Date().time, content: ""],
-            footer: [timestamp: new Date().time, content: ""],
-            head: [timestamp: new Date().time, content: ""]
-    ]
 
     /**
      * Call this tag from a controller to clear the cache.
      */
     def clearCache = {
-        hfCache.each { key, obj -> hfCache[key].content = ""}
-        log.info "cache cleared"
+        tagLinkService.clearCache()
     }
 
     /**
@@ -112,7 +84,7 @@ class HeaderFooterTagLib {
      * @attr ignoreCookie - if true the helper cookie will not be used to determine login - defaults to false
      */
     def loginLogout = { attrs ->
-        out << buildLoginoutLink(attrs)
+        out << tagLinkService.buildLoginoutLink(request, attrs)
     }
 
     /**
@@ -124,228 +96,11 @@ class HeaderFooterTagLib {
      * @emptyTag
      *
      * @attr casLoginUrl - defaults to {CH.config.security.cas.loginUrl}
+     * @attr casLoginUrl - defaults to {CH.config.security.cas.loginUrl}
      * @attr loginReturnToUrl where to go after logging in - defaults to current page
      */
-    Closure createLoginUrl = { attrs ->
-        String loginUrl = buildLoginLink(attrs)
-        return loginUrl
-    }
-    /**
-     * Get the content from cache of the web.
-     * @param which specifies the include
-     * @param attrs any specified params
-     * @return
-     */
-    String load(which, attrs) {
-        def content
-        if (hfCache[which].content == "" || (new Date().time > hfCache[which].timestamp + cacheTimeout)) {
-            content = getContent(which)
-            hfCache[which].content = content
-            hfCache[which].timestamp = new Date().time
-        } else {
-            content = hfCache[which].content
-        }
-        return transform(content, attrs)
-    }
-
-    /**
-     * Loads the content from the web.
-     * @param which specifies the include
-     * @return
-     */
-    String getContent(which) {
-
-
-        def url = headerAndFooterBaseURL + '/' + which + ".html" // Bootstrap versions
-        def conn = new URL(url).openConnection()
-        try {
-            conn.setConnectTimeout(10000)
-            conn.setReadTimeout(50000)
-            return conn.content.text
-        } catch (SocketTimeoutException e) {
-            log.warn "Timed out getting ${which} template. URL= ${url}."
-        } catch (Exception e) {
-            log.warn "Failed to get ${which} template. ${e.getClass()} ${e.getMessage()} URL= ${url}."
-        }
-        return ""
-    }
-
-    /**
-     * Does the appropriate substitutions on the included content.
-     * @param content
-     * @param attrs any specified params to override defaults
-     * @return
-     */
-    String transform(content, attrs) {
-        switch ( Holders.config.headerAndFooter.version ) {
-            case "2":
-                return transformV2(content, attrs)
-            case "1":
-            default:
-                return transformV1(content, attrs)
-        }
-    }
-
-    /**
-     * @deprecated
-     * Does the appropriate substitutions on the included content.
-     * @param content
-     * @param attrs any specified params to override defaults
-     * @return
-     */
-    String transformV1(content, attrs) {
-        content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
-        content = content.replaceAll(/::centralServer::/, alaBaseURL)
-        content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
-        content = content.replaceAll(/::searchPath::/, bieSearchPath)
-        content = content.replaceAll(/::authStatusClass::/, isLoggedIn(attrs) ? LOGGED_IN_CLASS: LOGGED_OUT_CLASS)
-        if (attrs.fluidLayout) {
-            content = content.replaceAll('class="container"', 'class="container-fluid"')
-        }
-        if (content =~ "::loginLogoutListItem::") {
-            // only do the work if it is needed
-            content = content.replaceAll(/::loginLogoutListItem::/, buildLoginoutLink(attrs))
-        }
-        return content
-    }
-
-    /**
-     * Does the appropriate substitutions on the included content.
-     * @param content
-     * @param attrs any specified params to override defaults
-     * @return
-     */
-    String transformV2(content, attrs) {
-        content = content.replaceAll(/::headerFooterServer::/, headerAndFooterBaseURL)
-        content = content.replaceAll(/::centralServer::/, alaBaseURL)
-        content = content.replaceAll(/::searchServer::/, bieBaseURL) // change for BIE to grailServerURL
-        content = content.replaceAll(/::searchPath::/, bieSearchPath)
-
-        if ((attrs.fluidLayout?:"true").toBoolean()) {
-            content = content.replaceAll('::containerClass::', "container-fluid")
-        } else {
-            content = content.replaceAll('::containerClass::', "container")
-        }
-
-        def signedInOutClass = isLoggedIn(attrs) ? 'signedIn' : 'signedOut'
-        content = content.replaceAll(/::loginURL::/, buildLoginLink(attrs))
-        content = content.replaceAll(/::logoutURL::/, buildLogoutLink(attrs))
-        content = content.replaceAll(/::loginStatus::/, signedInOutClass)
-
-        return content
-    }
-
-    boolean isLoggedIn(attrs) {
-        (attrs.ignoreCookie != "true" &&
-                AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)) ||
-                request.userPrincipal
-    }
-
-    /**
-     * Builds the login or logout link based on current login status.
-     * @param attrs any specified params to override defaults
-     * @return
-     */
-    String buildLoginoutLink(attrs) {
-        switch ( Holders.config.headerAndFooter.version ) {
-            case "2":
-                return buildLoginoutLinkV2(attrs)
-            case "1":
-            default:
-                return buildLoginoutLinkV1(attrs)
-        }
-    }
-
-    /**
-     * @deprecated
-     * Builds the login or logout link based on current login status.
-     * @param attrs any specified params to override defaults
-     * @return
-     */
-    String buildLoginoutLinkV1(attrs) {
-        def requestUri = removeContext(grailServerURL) + request.forwardURI
-        def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
-        def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
-        def casLogoutUrl = attrs.casLogoutUrl ?: casLogoutUrl
-
-        // TODO should this be attrs.logoutReturnToUrl?
-        if (!attrs.loginReturnToUrl && request.queryString) {
-            logoutReturnToUrl += "?" + URLEncoder.encode(request.queryString, "UTF-8")
-        }
-
-        if (isLoggedIn(attrs)) {
-            return "<a href='${logoutUrl}" +
-                    "?casUrl=${casLogoutUrl}" +
-                    "&appUrl=${logoutReturnToUrl}' " +
-                    "class='${attrs.cssClass}'>Logout</a>"
-        } else {
-            // currently logged out
-            return "<a href='${buildLoginLink(attrs)}' class='${attrs.cssClass}'>Log in</a>"
-        }
-    }
-
-    /**
-     * Builds the login or logout link based on current login status.
-     * @param attrs any specified params to override defaults
-     * @return
-     */
-    String buildLoginoutLinkV2(attrs) {
-        def requestUri = removeContext(grailServerURL) + request.forwardURI
-        def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
-        def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
-        def casLogoutUrl = attrs.casLogoutUrl ?: casLogoutUrl
-
-        // TODO should this be attrs.logoutReturnToUrl?
-        if (!attrs.loginReturnToUrl && request.queryString) {
-            logoutReturnToUrl += "?" + URLEncoder.encode(request.queryString, "UTF-8")
-        }
-
-        if (isLoggedIn(attrs)) {
-            return "<a href='${logoutUrl}" +
-                    "?casUrl=${casLogoutUrl}" +
-                    "&appUrl=${logoutReturnToUrl}' " +
-                    "class='btn btn-outline-white btn-sm'>Logout</a>"
-        } else {
-            // currently logged out
-            return "<a href='${buildLoginLink(attrs)}' class='btn btn-primary btn-sm'>Login</a>"
-        }
-    }
-
-    /**
-     * Build the login link
-     * @param attrs any specified params to override defaults
-     * @return The login url
-     */
-    String buildLoginLink(attrs) {
-        def casLoginUrl = attrs.casLoginUrl ?: casLoginUrl
-        def loginReturnToUrl = attrs.loginReturnToUrl ?: (removeContext(grailServerURL) + request.forwardURI + (request.queryString ? "?" + URLEncoder.encode(request.queryString, "UTF-8") : ""))
-        String loginUrl = "${casLoginUrl}?service=${loginReturnToUrl}"
-        return loginUrl
-    }
-
-    /**
-     * Build the logout link
-     * @param attrs any specified params to override defaults
-     * @return The logout url
-     */
-    String buildLogoutLink(attrs) {
-        def requestUri = removeContext(grailServerURL) + request.forwardURI
-        def logoutUrl = attrs.logoutUrl ?: grailServerURL + "/session/logout"
-        def logoutReturnToUrl = attrs.logoutReturnToUrl ?: requestUri
-        String url = "${logoutUrl}?casUrl=${casLogoutUrl}&appUrl=${logoutReturnToUrl}"
-        return url
-    }
-
-    /**
-     * Remove the context path and params from the url.
-     * @param urlString
-     * @return
-     */
-    private String removeContext(urlString) {
-        def url = urlString.toURL()
-        def protocol = url.protocol != -1 ? url.protocol + "://" : ""
-        def port = url.port != -1 ? ":" + url.port : ""
-        return protocol + url.host + port
+    def createLoginUrl = { attrs ->
+        out << tagLinkService.buildLoginLink(request, attrs)
     }
 
     /*
@@ -374,14 +129,14 @@ class HeaderFooterTagLib {
      * @attr offset Used only if params.offset is empty
      * @attr fragment The link fragment (often called anchor tag) to use
      */
-    Closure paginate = { Map attrsMap ->
+    def paginate = { Map attrsMap ->
         TypeConvertingMap attrs = (TypeConvertingMap)attrsMap
 
         def writer = out
         if (attrs.total == null) {
             throwTagError("Tag [paginate] is missing required attribute [total]")
         }
-        def messageSource = grailsAttributes.messageSource
+
         def locale = RequestContextUtils.getLocale(request)
 
         def total = attrs.int('total') ?: 0
