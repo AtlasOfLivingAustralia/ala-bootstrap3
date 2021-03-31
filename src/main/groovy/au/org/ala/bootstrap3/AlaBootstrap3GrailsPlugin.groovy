@@ -61,24 +61,9 @@ Brief summary/description of the plugin.
     }
 
     void onConfigChange(Map<String, Object> event) {
-        addDefaultConfig()
     }
 
     void onShutdown(Map<String, Object> event) {
         // TODO Implement code that is executed when the application shuts down (optional)
-    }
-
-    // add default value for config.headerAndFooter.baseURL that can be overridden by client app
-    private void addDefaultConfig() {
-        def value = "https://www.ala.org.au/commonui-bs3"
-        def buildProps = new Properties()
-        buildProps.setProperty("headerAndFooter.baseURL", value)
-        def configSlurper = new ConfigSlurper().parse(buildProps)
-        applicationContext.environment.propertySources.addLast(new MapPropertySource('ala-bootstrap3-default', configSlurper))
-
-        //if config is already initialised, add default value if it is missing
-        if (Holders?.config && !Holders.config.headerAndFooter.baseURL) {
-            Holders.config.headerAndFooter.baseURL = value
-        }
     }
 }
