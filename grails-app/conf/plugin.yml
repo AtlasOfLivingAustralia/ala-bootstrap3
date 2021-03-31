@@ -2,3 +2,6 @@ grails:
     plugins:
         twitterbootstrap:
             fixtaglib: true
+
+headerAndFooter:
+    baseURL: https://www.ala.org.au/commonui-bs3
