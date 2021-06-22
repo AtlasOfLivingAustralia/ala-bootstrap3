@@ -14,35 +14,19 @@ import java.security.Principal
 @TestFor(HeaderFooterTagLib)
 class HeaderFooterTagLibSpec extends Specification {
 
-    def originalAlaBaseURL
-    def originalSecurityCasLoginUrl
-    def originalSecurityCasLogoutUrl
-    def originalGrailsServerURL
-
     def setup() {
-        originalAlaBaseURL = grailsApplication.config.ala.baseURL
-        grailsApplication.config.ala.baseURL = 'https://example.com/base-url'
-
-        originalSecurityCasLoginUrl = grailsApplication.config.security.cas.loginUrl
-        grailsApplication.config.security.cas.loginUrl = 'https://example.com/cas/login'
-
-        originalSecurityCasLogoutUrl = grailsApplication.config.security.cas.logoutUrl
-        grailsApplication.config.security.cas.logoutUrl = 'https://example.com/cas/logout'
-
-        originalGrailsServerURL = grailsApplication.config.grails.serverURL
-        grailsApplication.config.grails.serverURL = 'https://example.com/grailsserverurl'
-
         tagLib.tagLinkService = new TagLinkService()
+        tagLib.tagLinkService.alaBaseURL = 'https://example.com/base-url'
+        tagLib.tagLinkService.casLoginUrl = 'https://example.com/cas/login'
+        tagLib.tagLinkService.casLogoutUrl = 'https://example.com/cas/logout'
+        tagLib.tagLinkService.grailServerURL = 'https://example.com/grailsserverurl'
+
         tagLib.tagLinkService.codecLookup = new DefaultCodecLookup()
         tagLib.tagLinkService.codecLookup.setGrailsApplication(grailsApplication)
         tagLib.tagLinkService.codecLookup.reInitialize()
     }
 
     def cleanup() {
-        grailsApplication.config.ala.baseURL = originalAlaBaseURL
-        grailsApplication.config.security.cas.loginUrl = originalSecurityCasLoginUrl
-        grailsApplication.config.security.cas.logoutUrl = originalSecurityCasLogoutUrl
-        grailsApplication.config.grails.serverURL = originalGrailsServerURL
     }
 
     void "test banner content already retrieved"() {

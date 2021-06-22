@@ -1,10 +1,11 @@
 package au.org.ala.bootstrap3
 
 import au.org.ala.cas.util.AuthenticationCookieUtils
-import grails.util.Holders
 import org.grails.encoder.CodecLookup
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.util.UriComponentsBuilder
 import javax.servlet.http.HttpServletRequest
+import java.util.concurrent.ConcurrentHashMap
 
 
 class TagLinkService {
@@ -20,26 +21,54 @@ class TagLinkService {
      * The banner include assumes that ala-cas-client exists in the app library.
      */
 
-    String alaBaseURL = getConfigValue('ala.baseURL', String, "https://www.ala.org.au")
-    String bieBaseURL = getConfigValue('bie.baseURL', String, "https://bie.ala.org.au")
-    String grailServerURL = getConfigValue('grails.serverURL', String, "http://bie.ala.org.au")
-    String bieSearchPath = getConfigValue('bie.searchPath', String, "/search")
-    String headerAndFooterBaseURL = getConfigValue('headerAndFooter.baseURL', String, "https://www.ala.org.au/commonui-bs3")
-    String userDetailsServerUrl = getConfigValue('userDetails.url', String, "https://auth.ala.org.au/userdetails")
-    String casLoginUrl = getConfigValue('security.cas.loginUrl', String, "https://auth.ala.org.au/cas/login")
-    String casLogoutUrl = getConfigValue('security.cas.logoutUrl', String, "https://auth.ala.org.au/cas/logout")
-    Long cacheTimeout = Long.valueOf(getConfigValue('headerAndFooter.cacheTimeout', String, "1800000")?.toString())
-    String headerAndFooterVersion = getConfigValue('headerAndFooter.version', String, "1")
+    @Value('${ala.baseURL:https://www.ala.org.au}')
+    String alaBaseURL ="https://www.ala.org.au"
+    @Value('${bie.baseURL:https://bie.ala.org.au}')
+    String bieBaseURL ="https://bie.ala.org.au"
+    @Value('${grails.serverURL:https://bie.ala.org.au}')
+    String grailServerURL = "http://bie.ala.org.au"
+    @Value('${bie.searchPath:https://bie.ala.org.au}')
+    String bieSearchPath = "/search"
+    @Value('${headerAndFooter.baseURL:https://www.ala.org.au/commonui-bs3}')
+    String headerAndFooterBaseURL = "https://www.ala.org.au/commonui-bs3"
+    @Value('${userDetails.url:https://auth.ala.org.au/userdetails}')
+    String userDetailsServerUrl = "https://auth.ala.org.au/userdetails"
+    @Value('${security.cas.loginUrl:https://auth.ala.org.au/cas/login}')
+    String casLoginUrl = "https://auth.ala.org.au/cas/login"
+    @Value('${security.cas.logoutUrl:https://auth.ala.org.au/cas/login}')
+    String casLogoutUrl = "https://auth.ala.org.au/cas/logout"
+    @Value('${headerAndFooter.cacheTimeout:1800000}')
+    Long cacheTimeout = 1800000
+    @Value('${headerAndFooter.version:1}')
+    String headerAndFooterVersion = "1"
+    /**
+     * Whether to include the casUrl parameter in logout links.  ALA Auth plugin does not accept a casUrl parameter
+     * any more, so default to not sending it but provide a mechanism to re-enable it in case of mismatched versions.
+     * @deprecated To be removed next version
+     */
+    // TODO remove this in subsequent version
+    @Deprecated
+    @Value('${headerAndFooter.includeLogoutCasUrlParam:false}')
+    boolean includeLogoutCasUrlParam = false
+    /**
+     * Whether to include the default appUrl parameter in logout links.  ALA Auth plugin can generate the return URL
+     * by itself, so default to not sending it but provide a mechanism to re-enable it in case of mismatched versions.
+     * @deprecated To be removed next version
+     */
+    // TODO remove this in subsequent version
+    @Deprecated
+    @Value('${headerAndFooter.includeLogoutDefaultAppUrlParam:false}')
+    boolean includeLogoutDefaultAppUrlParam = false
 
     /**
      * Cache for includes. Expires after 30 mins or when clearCache is called.
      */
-    def hfCache = [
+    def hfCache = new ConcurrentHashMap<>([
             banner: [timestamp: new Date().time, content: ""],
             menu  : [timestamp: new Date().time, content: ""],
             footer: [timestamp: new Date().time, content: ""],
             head  : [timestamp: new Date().time, content: ""]
-    ]
+    ])
 
     /**
      * Clear the in-memory cache of content fragments.
@@ -48,35 +77,6 @@ class TagLinkService {
     def clearCache() {
         hfCache.each { key, obj -> hfCache[key].content = "" }
         log.info "cache cleared"
-    }
-
-    /**
-     * Get a configuration value from a key.
-     * Throws an error if the key cannot be found and there is no default value.
-     * @param key The key to find.
-     * @param targetType The type of the value.
-     * @param defaultValue The default value if the key cannot be found.
-     * @return The value for the key.
-     */
-    def getConfigValue(String key, Class targetType = null, def defaultValue = null) {
-        if (!key) {
-            throw new IllegalArgumentException("Must provide a valid key.")
-        }
-
-        def result = null
-        if (targetType == null && defaultValue == null) {
-            result = Holders.config.getProperty(key)
-        } else if (targetType != null && defaultValue == null) {
-            result = Holders.config.getProperty(key, targetType)
-        } else if (targetType != null && defaultValue != null) {
-            result = Holders.config.getProperty(key, targetType, defaultValue)
-        }
-
-        if (result == null) {
-            throw new IllegalStateException("Could not get value for configuration key '${key}'.")
-        }
-
-        return result
     }
 
     /**
@@ -184,9 +184,16 @@ class TagLinkService {
                           String customLogoutReturnToUrl = null) {
         def logoutUrl = customLogoutUrl ?: (grailServerURL + (grailServerURL.endsWith('/') ? '' : '/'))
         def casLogoutUrl = buildUri(customCasLogoutUrl ?: this.casLogoutUrl)
-        def logoutReturnToUrl = customLogoutReturnToUrl ? buildUri(customLogoutReturnToUrl) : buildRequestForwardUrl(request)
+        def logoutReturnToUrl = customLogoutReturnToUrl ? buildUri(customLogoutReturnToUrl) : (includeLogoutDefaultAppUrlParam ? buildRequestForwardUrl(request) : '')
+        def logoutParams = [:]
+        if (logoutReturnToUrl) {
+            logoutParams.appUrl = logoutReturnToUrl
+        }
+        if (includeLogoutCasUrlParam) {
+            logoutParams.casUrl = casLogoutUrl
+        }
 
-        def result = buildUri(logoutUrl, [], [casUrl: casLogoutUrl, appUrl: logoutReturnToUrl])
+        def result = buildUri(logoutUrl, [], logoutParams)
         return result
     }
 
