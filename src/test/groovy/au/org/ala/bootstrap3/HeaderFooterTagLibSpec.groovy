@@ -1,18 +1,9 @@
 package au.org.ala.bootstrap3
-
-import au.org.ala.cas.util.AuthenticationCookieUtils
-import grails.test.mixin.TestFor
 import org.grails.plugins.codecs.DefaultCodecLookup
 import spock.lang.Specification
+import grails.testing.web.taglib.TagLibUnitTest
 
-import javax.servlet.http.Cookie
-import java.security.Principal
-
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
- */
-@TestFor(HeaderFooterTagLib)
-class HeaderFooterTagLibSpec extends Specification {
+class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<HeaderFooterTagLib> {
 
     def setup() {
         tagLib.tagLinkService = new TagLinkService()

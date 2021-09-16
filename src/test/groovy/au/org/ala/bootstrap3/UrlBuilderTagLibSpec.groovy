@@ -1,14 +1,15 @@
 package au.org.ala.bootstrap3
 
-import grails.test.mixin.TestFor
+
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.plugins.codecs.DefaultCodecLookup
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.web.GroovyPageUnitTestMixin} for usage instructions
  */
-@TestFor(UrlBuilderTagLib)
-class UrlBuilderTagLibSpec extends Specification {
+
+class UrlBuilderTagLibSpec extends Specification implements TagLibUnitTest<UrlBuilderTagLib> {
 
     def setup() {
         grailsApplication.config.someUrl.baseUrl = 'https://example.org/'

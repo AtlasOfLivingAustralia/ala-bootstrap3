@@ -1,6 +1,6 @@
 package au.org.ala.bootstrap3
 
-import grails.test.mixin.TestFor
+import grails.testing.services.ServiceUnitTest
 import org.springframework.http.HttpMethod
 import org.springframework.mock.web.MockServletContext
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
@@ -9,13 +9,7 @@ import spock.lang.Specification
 
 import javax.servlet.http.HttpServletRequest
 
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions.
- *
- * NOTE: The TagLinkService is tested indirectly in HeaderFooterTagLibSpec.
- */
-@TestFor(TagLinkService)
-class TagLinkServiceSpec extends Specification {
+class TagLinkServiceSpec extends Specification implements ServiceUnitTest<TagLinkService> {
 
     String logoutRequestUri
     HttpServletRequest logoutRequest

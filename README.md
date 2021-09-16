@@ -1,5 +1,8 @@
 ala-bootstrap3   [![Build Status](https://travis-ci.org/AtlasOfLivingAustralia/ala-bootstrap3.svg?branch=master)](https://travis-ci.org/AtlasOfLivingAustralia/ala-bootstrap3)
 =========
+## Grails 4
+The version of 3.4.0-SNAPSHOT with Grails 4.0.12 can be found on the `grails4` branch of this repo.
+
 ## Grails 3
 
 The Grails 3 version of this plugin can be found on the `master` branch of this repo.
