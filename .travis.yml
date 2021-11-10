@@ -8,6 +8,7 @@ branches:
   - hotfix
   - 2016design
   - grails3
+  - grails4
   - pivotal
   - develop
 before_cache:
