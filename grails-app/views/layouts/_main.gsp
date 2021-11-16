@@ -64,8 +64,12 @@
 <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 <g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.getProperty('skin.fluidLayout', Boolean, false)}"/>
 <!-- Header -->
-<hf:banner logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
-           ignoreCookie="${grailsApplication.config.ignoreCookie}" fluidLayout="${grailsApplication.config.fluidLayout}"/>
+<hf:banner
+        loginUrl="${grailsApplication.config.loginUrl}"
+        logoutUrl="${grailsApplication.config.logoutUrl}"
+        myProfileLink="${grailsApplication.config.myProfileLink}"
+        ignoreCookie="${grailsApplication.config.ignoreCookie}"
+        fluidLayout="${grailsApplication.config.fluidLayout}"/>
 <!-- End header -->
 <g:if test="${!pageProperty(name:'meta.hideBreadcrumb')}">
     <!-- Breadcrumb -->
@@ -97,9 +101,9 @@
 </g:if>
 <!-- Optional banner message (requires ala-admin-plugin) -->
 <plugin:isAvailable name="alaAdminPlugin">
-	<div class="ala-admin-message">
+    <div class="ala-admin-message">
         <ala:systemMessage/>
-	</div>
+    </div>
 </plugin:isAvailable>
 <!-- end banner message -->
 <!-- Container -->
@@ -107,9 +111,11 @@
     <g:layoutBody />
 </div><!-- End container #main col -->
 
-<hf:footer logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
-           ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
-
+<hf:footer
+        loginUrl="${grailsApplication.config.loginUrl}"
+        logoutUrl="${grailsApplication.config.logoutUrl}"
+        myProfileLink="${grailsApplication.config.myProfileLink}"
+        ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
 <asset:deferredScripts/>
 
 </body>

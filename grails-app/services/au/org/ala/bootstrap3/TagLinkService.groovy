@@ -1,6 +1,5 @@
 package au.org.ala.bootstrap3
 
-import au.org.ala.cas.util.AuthenticationCookieUtils
 import org.grails.encoder.CodecLookup
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.util.UriComponentsBuilder
@@ -308,6 +307,8 @@ class TagLinkService {
         def signedInOutClass = isLoggedIn(request, attrs) ? 'signedIn' : 'signedOut'
         content = content.replace('::loginURL::', encodeOutput(buildLoginLink(request, attrs)))
         content = content.replace('::logoutURL::', encodeOutput(buildLogoutLink(request, attrs)))
+        content = content.replace('::myProfileURL::', encodeOutput(buildMyProfileLink(request, attrs)))
+        content = content.replace('::editAccountLink::', encodeOutput(buildEditAccountLink(request, attrs)))
         content = content.replace('::loginStatus::', signedInOutClass)
 
         return content
@@ -321,8 +322,7 @@ class TagLinkService {
      */
     boolean isLoggedIn(request, attrs) {
         // is logged in if there is a user session in the request
-        def userSession = request.userPrincipal
-        if (userSession) {
+        if (request.userPrincipal) {
             return true
         }
 
@@ -389,9 +389,13 @@ class TagLinkService {
      * @return The login url
      */
     String buildLoginLink(def request, Map attrs = [:]) {
-        String customCasLoginUrl = attrs.casLoginUrl
-        String customLoginReturnToUrl = attrs.loginReturnToUrl ?: attrs.loginReturnUrl
-        return buildLoginUrl(request, customCasLoginUrl, customLoginReturnToUrl)
+        if (attrs.loginUrl){
+            attrs.loginUrl
+        } else {
+            String customCasLoginUrl = attrs.casLoginUrl
+            String customLoginReturnToUrl = attrs.loginReturnToUrl ?: attrs.loginReturnUrl
+            buildLoginUrl(request, customCasLoginUrl, customLoginReturnToUrl)
+        }
     }
 
     /**
@@ -400,10 +404,22 @@ class TagLinkService {
      * @return The logout url
      */
     String buildLogoutLink(request, Map attrs) {
-        String customCasLogoutUrl = null
-        String customLogoutUrl = attrs.logoutUrl
-        String customLogoutReturnToUrl = attrs.logoutReturnToUrl ?: attrs.logoutReturnUrl
-        return buildLogoutUrl(request, customCasLogoutUrl, customLogoutUrl, customLogoutReturnToUrl)
+        if (attrs.logoutUrl){
+            attrs.logoutUrl
+        } else {
+           String customCasLogoutUrl = null
+           String customLogoutUrl = attrs.logoutUrl
+           String customLogoutReturnToUrl = attrs.logoutReturnToUrl ?: attrs.logoutReturnUrl
+           buildLogoutUrl(request, customCasLogoutUrl, customLogoutUrl, customLogoutReturnToUrl)
+        }
+    }
+
+    String buildMyProfileLink(request, Map attrs) {
+        attrs.myProfileLink?:''
+    }
+
+    String buildEditAccountLink(request, Map attrs) {
+        attrs.editAccountLink?:''
     }
 
     /**
@@ -461,8 +477,12 @@ class TagLinkService {
     }
 
     private String encodeOutput(String value) {
-        def encoder = codecLookup.lookupEncoder('HTML')
-        def encodedValue = encoder.encode(value)
-        return encodedValue
+        if (value) {
+            def encoder = codecLookup.lookupEncoder('HTML')
+            def encodedValue = encoder.encode(value)
+            encodedValue
+        } else {
+            ""
+        }
     }
 }
