@@ -1,5 +1,6 @@
 package au.org.ala.bootstrap3
 
+import au.org.ala.cas.util.AuthenticationCookieUtils
 import org.grails.encoder.CodecLookup
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.util.UriComponentsBuilder
