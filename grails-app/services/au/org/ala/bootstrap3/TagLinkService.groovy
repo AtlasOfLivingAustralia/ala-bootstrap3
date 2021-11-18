@@ -326,14 +326,6 @@ class TagLinkService {
         if (request.userPrincipal) {
             return true
         }
-
-        // is logged in if the custom cookie is not ignored and the custom cookie is present
-        def ignoreCookie = attrs.ignoreCookie == "true"
-        def customCookieExists = AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)
-        if (!ignoreCookie && customCookieExists) {
-            return true
-        }
-
         return false
     }
 
