@@ -55,19 +55,6 @@ class TagLinkServiceSpec extends Specification implements ServiceUnitTest<TagLin
         service.buildLogoutUrl(logoutRequest, casLogoutUrl, logoutUrlBase, null) == "${service.grailServerURL}/logout"
     }
 
-    void "test build logout URL includes CAS logout URL included if requested"() {
-        setup:
-        def logoutUrlBase = service.grailServerURL + '/logout'
-        def casLogoutUrl = service.casLogoutUrl
-        service.includeLogoutCasUrlParam = true
-
-        expect:
-        service.buildLogoutUrl(logoutRequest, casLogoutUrl, logoutUrlBase, null) == "${service.grailServerURL}/logout?casUrl=${casLogoutUrl}"
-
-        cleanup:
-        service.includeLogoutCasUrlParam = false
-    }
-
     void "test build logout URL excludes Default App return URL by default"() {
         setup:
         def logoutUrlBase = service.grailServerURL + '/logout'
@@ -75,21 +62,6 @@ class TagLinkServiceSpec extends Specification implements ServiceUnitTest<TagLin
 
         expect:
         service.buildLogoutUrl(logoutRequest, casLogoutUrl, logoutUrlBase, null) == "${service.grailServerURL}/logout"
-    }
-
-    void "test build logout URL includes Default App return URL if requested"() {
-        setup:
-        def logoutUrlBase = service.grailServerURL + '/logout'
-        def casLogoutUrl = service.casLogoutUrl
-        service.includeLogoutDefaultAppUrlParam = true
-
-        def encodedLogoutRequestUri = 'https://bie.ala.org.au/some/path/with/params?test%26foo%3Dbar'
-
-        expect:
-        service.buildLogoutUrl(logoutRequest, casLogoutUrl, logoutUrlBase, null) == "${service.grailServerURL}/logout?appUrl=$encodedLogoutRequestUri"
-
-        cleanup:
-        service.includeLogoutDefaultAppUrlParam = false
     }
 
     void "test build logout URL includes Custom App return URL"() {
