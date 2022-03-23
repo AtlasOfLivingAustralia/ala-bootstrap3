@@ -64,6 +64,7 @@ dependencies {
     testCompile "org.grails:grails-web-testing-support"
 
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    compile 'org.grails.plugins:ala-auth:5.0.0-SNAPSHOT'
     compile 'au.org.ala:ala-cas-client:2.5'
 
 }

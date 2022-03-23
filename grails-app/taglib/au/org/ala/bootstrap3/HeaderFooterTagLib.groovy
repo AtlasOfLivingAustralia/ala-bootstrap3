@@ -1,10 +1,12 @@
 package au.org.ala.bootstrap3
 
+import au.org.ala.web.AuthService
 import grails.util.TypeConvertingMap
 import org.springframework.web.servlet.support.RequestContextUtils
 
 class HeaderFooterTagLib {
 
+    AuthService authService
     TagLinkService tagLinkService
     def messageSource
 
@@ -100,7 +102,7 @@ class HeaderFooterTagLib {
      * @attr loginReturnToUrl where to go after logging in - defaults to current page
      */
     def createLoginUrl = { attrs ->
-        out << tagLinkService.buildLoginLink(request, attrs)
+        out << authService.loginUrl(loginReturnToUrl ?: request)
     }
 
     /*

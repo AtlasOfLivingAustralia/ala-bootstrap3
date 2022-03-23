@@ -1,6 +1,8 @@
 package au.org.ala.bootstrap3
 
 import au.org.ala.cas.util.AuthenticationCookieUtils
+import au.org.ala.web.AuthService
+import au.org.ala.web.UserDetails
 import grails.web.mapping.LinkGenerator
 import org.grails.encoder.CodecLookup
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,6 +50,9 @@ class TagLinkService {
 
     @Autowired
     LinkGenerator linkGenerator
+
+    @Autowired
+    AuthService authService
 
     /**
      * Cache for includes. Expires after 30 mins or when clearCache is called.
@@ -145,26 +150,6 @@ class TagLinkService {
         def requestQuery = request.queryString ? (request.queryString.startsWith('?') ? '' : '?') + request.queryString : ''
         def result = buildUri([requestSchemeAuthority, requestPath, requestQuery].join(''))
         return result
-    }
-
-    /**
-     * Build a login url.
-     * @param request The current request.
-     * @param customCasLoginUrl A custom CAS login url. Leave null to use the default.
-     * @param customLoginReturnToUrl A custom login return to url. Leave null to use the current request forward uri.
-     * @return A login url with the service url properly encoded.
-     */
-    String buildLoginUrl(HttpServletRequest request, String customCasLoginUrl = null, String customLoginReturnToUrl = null) {
-        def loginReturnToUrl = customLoginReturnToUrl ? buildUri(customLoginReturnToUrl) : buildRequestForwardUrl(request)
-        def loginUrl
-        if (isOidc) {
-            loginUrl = linkGenerator.link(mapping:'login', params: [path: loginReturnToUrl])
-        } else {
-            def casLoginUrl = customCasLoginUrl ?: this.casLoginUrl
-            loginUrl = buildUri(casLoginUrl, [], ['service': loginReturnToUrl])
-        }
-
-        return loginUrl
     }
 
     /**
@@ -326,9 +311,9 @@ class TagLinkService {
      * @return True if there is a logged in user, otherwise false.
      */
     boolean isLoggedIn(request, attrs) {
-        // is logged in if there is a user session in the request
-        def userSession = request.userPrincipal
-        if (userSession) {
+
+        UserDetails userDetails = authService.userDetails()
+        if (userDetails) {
             return true
         }
 
@@ -395,9 +380,8 @@ class TagLinkService {
      * @return The login url
      */
     String buildLoginLink(def request, Map attrs = [:]) {
-        String customCasLoginUrl = attrs.casLoginUrl
         String customLoginReturnToUrl = attrs.loginReturnToUrl ?: attrs.loginReturnUrl
-        return buildLoginUrl(request, customCasLoginUrl, customLoginReturnToUrl)
+        return authService.loginUrl(customLoginReturnToUrl ?: request)
     }
 
     /**
