@@ -1,4 +1,7 @@
 package au.org.ala.bootstrap3
+
+import au.org.ala.web.AuthService
+import au.org.ala.web.UserDetails
 import org.grails.plugins.codecs.DefaultCodecLookup
 import spock.lang.Specification
 import grails.testing.web.taglib.TagLibUnitTest
@@ -15,6 +18,11 @@ class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<Hea
         tagLib.tagLinkService.codecLookup = new DefaultCodecLookup()
         tagLib.tagLinkService.codecLookup.setGrailsApplication(grailsApplication)
         tagLib.tagLinkService.codecLookup.reInitialize()
+
+        tagLib.tagLinkService.authService = Spy(AuthService) {
+            userDetails() >> null
+            loginUrl(_) >> "/login"
+        }
     }
 
     def cleanup() {
@@ -86,7 +94,7 @@ class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<Hea
 
     void "test loginLogout with no login session or cookie"() {
         given:
-        def expected = "<a href='https://example.com/cas/login?service=https://example.com/a-test-page' class='test-css-class'>Log in</a>"
+        def expected = "<a href='/login' class='test-css-class'>Log in</a>"
         def forwardUri = '/a-test-page'
 
         when:

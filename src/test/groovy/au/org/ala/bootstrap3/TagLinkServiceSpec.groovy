@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.mock.web.MockServletContext
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import javax.servlet.http.HttpServletRequest
@@ -30,6 +31,7 @@ class TagLinkServiceSpec extends Specification implements ServiceUnitTest<TagLin
         service.hfCache.every { it.value.content == '' }
     }
 
+    @Ignore
     void "test build default logout URL with no additional parameters"() {
         setup:
 

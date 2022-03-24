@@ -48,10 +48,7 @@ class TagLinkService {
     @Value('${security.oidc.enabled:false}')
     Boolean isOidc = false
 
-    @Autowired
     LinkGenerator linkGenerator
-
-    @Autowired
     AuthService authService
 
     /**
