@@ -2,7 +2,6 @@ package au.org.ala.bootstrap3
 
 import au.org.ala.web.AuthService
 import org.grails.plugins.codecs.DefaultCodecLookup
-import spock.lang.Ignore
 import spock.lang.Specification
 import grails.testing.web.taglib.TagLibUnitTest
 
@@ -28,7 +27,6 @@ class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<Hea
     def cleanup() {
     }
 
-    @Ignore
     void "test banner content already retrieved"() {
 
         when:
@@ -94,7 +92,6 @@ class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<Hea
         tagLib.tagLinkService.hfCache['head']['content']?.startsWith(expected)
     }
 
-    @Ignore
     void "test loginLogout with no login session or cookie"() {
         given:
         def expected = "<a href='/login' class='test-css-class'>Log in</a>"
