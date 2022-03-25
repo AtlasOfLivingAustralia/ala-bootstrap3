@@ -1,7 +1,6 @@
 package au.org.ala.bootstrap3
 
 import au.org.ala.web.AuthService
-import au.org.ala.web.UserDetails
 import org.grails.plugins.codecs.DefaultCodecLookup
 import spock.lang.Specification
 import grails.testing.web.taglib.TagLibUnitTest
