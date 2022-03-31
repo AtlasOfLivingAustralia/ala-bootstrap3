@@ -1,6 +1,8 @@
 package au.org.ala.bootstrap3
 
 import grails.testing.services.ServiceUnitTest
+import grails.web.mapping.LinkGenerator
+import org.grails.spring.beans.factory.InstanceFactoryBean
 import org.springframework.http.HttpMethod
 import org.springframework.mock.web.MockServletContext
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
@@ -14,10 +16,14 @@ class TagLinkServiceSpec extends Specification implements ServiceUnitTest<TagLin
 
     String logoutRequestUri
     HttpServletRequest logoutRequest
+    LinkGenerator linkGenerator
     def setup() {
         def servletContext = new MockServletContext()
         logoutRequestUri = service.grailServerURL+'/some/path/with/params?test&foo=bar'
         logoutRequest = MockMvcRequestBuilders.request(HttpMethod.GET, logoutRequestUri).buildRequest(servletContext)
+        defineBeans {
+            linkGenerator(InstanceFactoryBean, Stub(LinkGenerator), LinkGenerator)
+        }
     }
 
     def cleanup() {
