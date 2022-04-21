@@ -12,7 +12,7 @@ buildscript {
     }
 }
 
-version "4.0.1-SNAPSHOT"
+version "4.0.0-SNAPSHOT"
 group "org.grails.plugins"
 
 apply plugin:"eclipse"
@@ -33,6 +33,10 @@ configurations {
     runtimeClasspath {
         extendsFrom developmentOnly
     }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
@@ -64,7 +68,7 @@ dependencies {
     testCompile "org.grails:grails-web-testing-support"
 
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
-    compile 'org.grails.plugins:ala-auth:5.0.0-SNAPSHOT'
+    // TODO Remove this dependency?
     compile 'au.org.ala:ala-cas-client:2.5'
 
 }

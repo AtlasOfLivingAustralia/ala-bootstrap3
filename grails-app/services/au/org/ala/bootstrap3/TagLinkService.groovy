@@ -1,8 +1,6 @@
 package au.org.ala.bootstrap3
 
 import au.org.ala.cas.util.AuthenticationCookieUtils
-import au.org.ala.web.AuthService
-import au.org.ala.web.UserDetails
 import grails.web.mapping.LinkGenerator
 import org.grails.encoder.CodecLookup
 import org.springframework.beans.factory.annotation.Autowired
@@ -43,14 +41,13 @@ class TagLinkService {
     String casLogoutUrl = "https://auth.ala.org.au/cas/logout"
     @Value('${headerAndFooter.cacheTimeout:1800000}')
     Long cacheTimeout = 1800000
-    @Value('${headerAndFooter.version:1}')
-    String headerAndFooterVersion = "1"
+    @Value('${headerAndFooter.version:2}')
+    String headerAndFooterVersion = "2"
     @Value('${security.oidc.enabled:false}')
     Boolean isOidc = false
 
     @Autowired
-    LinkGenerator linkGenerator
-    AuthService authService
+    LinkGenerator grailsLinkGenerator
 
     /**
      * Cache for includes. Expires after 30 mins or when clearCache is called.
@@ -151,6 +148,26 @@ class TagLinkService {
     }
 
     /**
+     * Build a login url.
+     * @param request The current request.
+     * @param customCasLoginUrl A custom CAS login url. Leave null to use the default.
+     * @param customLoginReturnToUrl A custom login return to url. Leave null to use the current request forward uri.
+     * @return A login url with the service url properly encoded.
+     */
+    String buildLoginUrl(HttpServletRequest request, String customCasLoginUrl = null, String customLoginReturnToUrl = null) {
+        def loginReturnToUrl = customLoginReturnToUrl ? buildUri(customLoginReturnToUrl) : buildRequestForwardUrl(request)
+        def loginUrl
+        if (isOidc) {
+            loginUrl = grailsLinkGenerator.link(mapping:'login', params: [path: loginReturnToUrl])
+        } else {
+            def casLoginUrl = customCasLoginUrl ?: this.casLoginUrl
+            loginUrl = buildUri(casLoginUrl, [], ['service': loginReturnToUrl])
+        }
+
+        return loginUrl
+    }
+
+    /**
      * Build a logout url.
      * @param request The current request.
      * @param customCasLogoutUrl A custom CAS login url. Leave null to use the default.
@@ -161,7 +178,7 @@ class TagLinkService {
     String buildLogoutUrl(HttpServletRequest request, String customCasLogoutUrl = null, String customLogoutUrl = null,
                           String customLogoutReturnToUrl = null) {
 //        def logoutUrl = customLogoutUrl ?: (grailServerURL + (grailServerURL.endsWith('/') ? '' : '/'))
-        def logoutUrl = customLogoutUrl ?: linkGenerator.link(absolute: true, uri: '/')
+        def logoutUrl = customLogoutUrl ?: grailsLinkGenerator.link(absolute: true, uri: '/')
         def logoutReturnToUrl = customLogoutReturnToUrl ? buildUri(customLogoutReturnToUrl) : ''
 
         def result
@@ -171,7 +188,7 @@ class TagLinkService {
             if (logoutReturnToUrl) {
                 params.url = logoutReturnToUrl
             }
-            result = linkGenerator.link(uri: '/logout', params: params)
+            result = grailsLinkGenerator.link(uri: '/logout', params: params)
         } else {
             def logoutParams = [:]
             if (logoutReturnToUrl) {
@@ -310,8 +327,9 @@ class TagLinkService {
      */
     boolean isLoggedIn(request, attrs) {
 
-        UserDetails userDetails = authService.userDetails()
-        if (userDetails) {
+        // is logged in if there is a user session in the request
+        def userSession = request.userPrincipal
+        if (userSession) {
             return true
         }
 
@@ -337,7 +355,7 @@ class TagLinkService {
             case "1":
                 return buildLoginoutLinkV1(request, attrs)
             default:
-                return buildLoginoutLinkV1(request, attrs)
+                return buildLoginoutLinkV2(request, attrs)
         }
     }
 
@@ -364,10 +382,19 @@ class TagLinkService {
      * @return
      */
     String buildLoginoutLinkV2(def request, attrs) {
+        def extraCssClass = attrs.cssClass ?: ''
         if (isLoggedIn(request, attrs)) {
-            return "<a href='${encodeOutput(buildLogoutLink(request, attrs))}' class='btn btn-outline-white btn-sm'>Logout</a>"
+            def cssClass = ['btn btn-outline-white btn-sm']
+            if (extraCssClass) {
+                cssClass.add(extraCssClass)
+            }
+            return "<a href='${encodeOutput(buildLogoutLink(request, attrs))}' class='${cssClass.join(' ')}'>Logout</a>"
         } else {
-            return "<a href='${encodeOutput(buildLoginLink(request, attrs))}' class='btn btn-primary btn-sm'>Login</a>"
+            def cssClass = ['btn btn-primary btn-sm']
+            if (extraCssClass) {
+                cssClass.add(extraCssClass)
+            }
+            return "<a href='${encodeOutput(buildLoginLink(request, attrs))}' class='${cssClass.join(' ')}'>Login</a>"
         }
     }
 
@@ -378,8 +405,9 @@ class TagLinkService {
      * @return The login url
      */
     String buildLoginLink(def request, Map attrs = [:]) {
+        String customCasLoginUrl = attrs.casLoginUrl
         String customLoginReturnToUrl = attrs.loginReturnToUrl ?: attrs.loginReturnUrl
-        return authService.loginUrl(customLoginReturnToUrl ?: request)
+        return buildLoginUrl(request, customCasLoginUrl, customLoginReturnToUrl)
     }
 
     /**

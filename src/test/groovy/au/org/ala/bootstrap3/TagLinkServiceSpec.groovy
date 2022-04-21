@@ -1,14 +1,14 @@
 package au.org.ala.bootstrap3
 
+import grails.config.Config
 import grails.testing.services.ServiceUnitTest
 import grails.web.mapping.LinkGenerator
-import org.grails.spring.beans.factory.InstanceFactoryBean
-import org.springframework.beans.factory.annotation.Autowired
+import org.grails.web.mapping.DefaultLinkGenerator
+import org.grails.web.mapping.UrlMappingsHolderFactoryBean
 import org.springframework.http.HttpMethod
 import org.springframework.mock.web.MockServletContext
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import spock.lang.Ignore
 import spock.lang.Specification
 
 import javax.servlet.http.HttpServletRequest
@@ -17,10 +17,21 @@ class TagLinkServiceSpec extends Specification implements ServiceUnitTest<TagLin
 
     String logoutRequestUri
     HttpServletRequest logoutRequest
+
+    def serverUrl = "http://bie.ala.org.au"
+
+    @Override
+    Closure doWithConfig() { return { Config config ->
+        config.grails.serverURL = serverUrl
+    }}
+
+    @Override
+    Closure doWithSpring() {return { ->
+        grailsUrlMappingsHolder(UrlMappingsHolderFactoryBean)
+        grailsLinkGenerator(DefaultLinkGenerator, serverUrl, '')
+    }}
+
     def setup() {
-        defineBeans {
-            linkGenerator(InstanceFactoryBean, Stub(LinkGenerator), LinkGenerator)
-        }
         def servletContext = new MockServletContext()
         logoutRequestUri = service.grailServerURL+'/some/path/with/params?test&foo=bar'
         logoutRequest = MockMvcRequestBuilders.request(HttpMethod.GET, logoutRequestUri).buildRequest(servletContext)
@@ -37,7 +48,6 @@ class TagLinkServiceSpec extends Specification implements ServiceUnitTest<TagLin
         service.hfCache.every { it.value.content == '' }
     }
 
-    @Ignore
     void "test build default logout URL with no additional parameters"() {
         setup:
 
