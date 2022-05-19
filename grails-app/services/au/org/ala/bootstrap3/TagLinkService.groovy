@@ -1,7 +1,9 @@
 package au.org.ala.bootstrap3
 
 import au.org.ala.cas.util.AuthenticationCookieUtils
+import grails.web.mapping.LinkGenerator
 import org.grails.encoder.CodecLookup
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.util.UriComponentsBuilder
 import javax.servlet.http.HttpServletRequest
@@ -39,26 +41,13 @@ class TagLinkService {
     String casLogoutUrl = "https://auth.ala.org.au/cas/logout"
     @Value('${headerAndFooter.cacheTimeout:1800000}')
     Long cacheTimeout = 1800000
-    @Value('${headerAndFooter.version:1}')
-    String headerAndFooterVersion = "1"
-    /**
-     * Whether to include the casUrl parameter in logout links.  ALA Auth plugin does not accept a casUrl parameter
-     * any more, so default to not sending it but provide a mechanism to re-enable it in case of mismatched versions.
-     * @deprecated To be removed next version
-     */
-    // TODO remove this in subsequent version
-    @Deprecated
-    @Value('${headerAndFooter.includeLogoutCasUrlParam:false}')
-    boolean includeLogoutCasUrlParam = false
-    /**
-     * Whether to include the default appUrl parameter in logout links.  ALA Auth plugin can generate the return URL
-     * by itself, so default to not sending it but provide a mechanism to re-enable it in case of mismatched versions.
-     * @deprecated To be removed next version
-     */
-    // TODO remove this in subsequent version
-    @Deprecated
-    @Value('${headerAndFooter.includeLogoutDefaultAppUrlParam:false}')
-    boolean includeLogoutDefaultAppUrlParam = false
+    @Value('${headerAndFooter.version:2}')
+    String headerAndFooterVersion = "2"
+    @Value('${security.oidc.enabled:false}')
+    Boolean isOidc = false
+
+    @Autowired
+    LinkGenerator grailsLinkGenerator
 
     /**
      * Cache for includes. Expires after 30 mins or when clearCache is called.
@@ -166,9 +155,15 @@ class TagLinkService {
      * @return A login url with the service url properly encoded.
      */
     String buildLoginUrl(HttpServletRequest request, String customCasLoginUrl = null, String customLoginReturnToUrl = null) {
-        def casLoginUrl = customCasLoginUrl ?: this.casLoginUrl
         def loginReturnToUrl = customLoginReturnToUrl ? buildUri(customLoginReturnToUrl) : buildRequestForwardUrl(request)
-        def loginUrl = buildUri(casLoginUrl, [], ['service': loginReturnToUrl])
+        def loginUrl
+        if (isOidc) {
+            loginUrl = grailsLinkGenerator.link(mapping:'login', params: [path: loginReturnToUrl])
+        } else {
+            def casLoginUrl = customCasLoginUrl ?: this.casLoginUrl
+            loginUrl = buildUri(casLoginUrl, [], ['service': loginReturnToUrl])
+        }
+
         return loginUrl
     }
 
@@ -182,18 +177,27 @@ class TagLinkService {
      */
     String buildLogoutUrl(HttpServletRequest request, String customCasLogoutUrl = null, String customLogoutUrl = null,
                           String customLogoutReturnToUrl = null) {
-        def logoutUrl = customLogoutUrl ?: (grailServerURL + (grailServerURL.endsWith('/') ? '' : '/'))
-        def casLogoutUrl = buildUri(customCasLogoutUrl ?: this.casLogoutUrl)
-        def logoutReturnToUrl = customLogoutReturnToUrl ? buildUri(customLogoutReturnToUrl) : (includeLogoutDefaultAppUrlParam ? buildRequestForwardUrl(request) : '')
-        def logoutParams = [:]
-        if (logoutReturnToUrl) {
-            logoutParams.appUrl = logoutReturnToUrl
-        }
-        if (includeLogoutCasUrlParam) {
-            logoutParams.casUrl = casLogoutUrl
+//        def logoutUrl = customLogoutUrl ?: (grailServerURL + (grailServerURL.endsWith('/') ? '' : '/'))
+        def logoutUrl = customLogoutUrl ?: grailsLinkGenerator.link(absolute: true, uri: '/')
+        def logoutReturnToUrl = customLogoutReturnToUrl ? buildUri(customLogoutReturnToUrl) : ''
+
+        def result
+        if (isOidc) {
+            // hits the pac4j logout filter instead of the logout controller
+            def params = [:]
+            if (logoutReturnToUrl) {
+                params.url = logoutReturnToUrl
+            }
+            result = grailsLinkGenerator.link(uri: '/logout', params: params)
+        } else {
+            def logoutParams = [:]
+            if (logoutReturnToUrl) {
+                logoutParams.appUrl = logoutReturnToUrl
+            }
+
+            result = buildUri(logoutUrl, [], logoutParams)
         }
 
-        def result = buildUri(logoutUrl, [], logoutParams)
         return result
     }
 
@@ -308,6 +312,8 @@ class TagLinkService {
         def signedInOutClass = isLoggedIn(request, attrs) ? 'signedIn' : 'signedOut'
         content = content.replace('::loginURL::', encodeOutput(buildLoginLink(request, attrs)))
         content = content.replace('::logoutURL::', encodeOutput(buildLogoutLink(request, attrs)))
+        content = content.replace('::myProfileURL::', encodeOutput(buildMyProfileLink(request, attrs)))
+        content = content.replace('::editAccountLink::', encodeOutput(buildEditAccountLink(request, attrs)))
         content = content.replace('::loginStatus::', signedInOutClass)
 
         return content
@@ -320,6 +326,7 @@ class TagLinkService {
      * @return True if there is a logged in user, otherwise false.
      */
     boolean isLoggedIn(request, attrs) {
+
         // is logged in if there is a user session in the request
         def userSession = request.userPrincipal
         if (userSession) {
@@ -327,7 +334,7 @@ class TagLinkService {
         }
 
         // is logged in if the custom cookie is not ignored and the custom cookie is present
-        def ignoreCookie = attrs.ignoreCookie == "true"
+        def ignoreCookie = attrs.ignoreCookie?.toString() != 'false'
         def customCookieExists = AuthenticationCookieUtils.cookieExists(request, AuthenticationCookieUtils.ALA_AUTH_COOKIE)
         if (!ignoreCookie && customCookieExists) {
             return true
@@ -348,7 +355,7 @@ class TagLinkService {
             case "1":
                 return buildLoginoutLinkV1(request, attrs)
             default:
-                return buildLoginoutLinkV1(request, attrs)
+                return buildLoginoutLinkV2(request, attrs)
         }
     }
 
@@ -375,10 +382,19 @@ class TagLinkService {
      * @return
      */
     String buildLoginoutLinkV2(def request, attrs) {
+        def extraCssClass = attrs.cssClass ?: ''
         if (isLoggedIn(request, attrs)) {
-            return "<a href='${encodeOutput(buildLogoutLink(request, attrs))}' class='btn btn-outline-white btn-sm'>Logout</a>"
+            def cssClass = ['btn btn-outline-white btn-sm']
+            if (extraCssClass) {
+                cssClass.add(extraCssClass)
+            }
+            return "<a href='${encodeOutput(buildLogoutLink(request, attrs))}' class='${cssClass.join(' ')}'>Logout</a>"
         } else {
-            return "<a href='${encodeOutput(buildLoginLink(request, attrs))}' class='btn btn-primary btn-sm'>Login</a>"
+            def cssClass = ['btn btn-primary btn-sm']
+            if (extraCssClass) {
+                cssClass.add(extraCssClass)
+            }
+            return "<a href='${encodeOutput(buildLoginLink(request, attrs))}' class='${cssClass.join(' ')}'>Login</a>"
         }
     }
 
@@ -404,6 +420,14 @@ class TagLinkService {
         String customLogoutUrl = attrs.logoutUrl
         String customLogoutReturnToUrl = attrs.logoutReturnToUrl ?: attrs.logoutReturnUrl
         return buildLogoutUrl(request, customCasLogoutUrl, customLogoutUrl, customLogoutReturnToUrl)
+    }
+
+    String buildMyProfileLink(request, Map attrs) {
+        attrs.myProfileLink ?: buildUri(userDetailsServerUrl, ['my-profile'])
+    }
+
+    String buildEditAccountLink(request, Map attrs) {
+        attrs.editAccountLink ?: buildUri(userDetailsServerUrl, ['registration','editAccount'])
     }
 
     /**
@@ -461,8 +485,12 @@ class TagLinkService {
     }
 
     private String encodeOutput(String value) {
-        def encoder = codecLookup.lookupEncoder('HTML')
-        def encodedValue = encoder.encode(value)
-        return encodedValue
+        if (value) {
+            def encoder = codecLookup.lookupEncoder('HTML')
+            def encodedValue = encoder.encode(value)
+            encodedValue
+        } else {
+            ""
+        }
     }
 }

@@ -23,7 +23,7 @@ class HeaderFooterTagLib {
      * @attr loginReturnUrl where to go after login - defaults to current page
      * @attr casLoginUrl - defaults to {CH.config.security.cas.loginUrl}
      * @attr casLogoutUrl - defaults to {CH.config.security.cas.logoutUrl}
-     * @attr ignoreCookie - if true the helper cookie will not be used to determine login - defaults to false
+     * @attr ignoreCookie - if true the helper cookie will not be used to determine login - defaults to true
      * @attr fluidLayout - if true the BS CSS class of "container" is changed to "container-fluid"
      */
     def banner = { attrs ->
