@@ -1,35 +1,49 @@
 package au.org.ala.bootstrap3
 
-import au.org.ala.cas.util.AuthenticationCookieUtils
-import grails.test.mixin.TestFor
+import grails.config.Config
 import org.grails.plugins.codecs.DefaultCodecLookup
+import org.grails.web.mapping.DefaultLinkGenerator
+import org.grails.web.mapping.UrlMappingsHolderFactoryBean
 import spock.lang.Specification
+import grails.testing.web.taglib.TagLibUnitTest
 
-import javax.servlet.http.Cookie
-import java.security.Principal
+class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<HeaderFooterTagLib> {
 
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
- */
-@TestFor(HeaderFooterTagLib)
-class HeaderFooterTagLibSpec extends Specification {
+    def serverUrl = 'http://bie.ala.org.au'
+
+    @Override
+    Closure doWithConfig() { return { Config config ->
+        config.setAt('grails.serverURL', serverUrl)
+        config.ala.baseURL = 'https://example.com/base-url'
+        config.security.cas.loginUrl = 'https://example.com/cas/login'
+        config.security.cas.logoutUrl = 'https://example.com/cas/logout'
+    }}
+
+    @Override
+    Closure doWithSpring() {return { ->
+        grailsUrlMappingsHolder(UrlMappingsHolderFactoryBean)
+        grailsLinkGenerator(DefaultLinkGenerator, serverUrl, '')
+        tagLinkService(TagLinkService)
+    }}
 
     def setup() {
-        tagLib.tagLinkService = new TagLinkService()
-        tagLib.tagLinkService.alaBaseURL = 'https://example.com/base-url'
-        tagLib.tagLinkService.casLoginUrl = 'https://example.com/cas/login'
-        tagLib.tagLinkService.casLogoutUrl = 'https://example.com/cas/logout'
-        tagLib.tagLinkService.grailServerURL = 'https://example.com/grailsserverurl'
+//        tagLib.tagLinkService = new TagLinkService()
+//        tagLib.tagLinkService.alaBaseURL = 'https://example.com/base-url'
+//        tagLib.tagLinkService.casLoginUrl = 'https://example.com/cas/login'
+//        tagLib.tagLinkService.casLogoutUrl = 'https://example.com/cas/logout'
+//        tagLib.tagLinkService.grailServerURL = 'https://example.com/grailsserverurl'
 
         tagLib.tagLinkService.codecLookup = new DefaultCodecLookup()
         tagLib.tagLinkService.codecLookup.setGrailsApplication(grailsApplication)
         tagLib.tagLinkService.codecLookup.reInitialize()
+
     }
 
     def cleanup() {
     }
 
     void "test banner content already retrieved"() {
+
         when:
         // start test with a clear cache
         tagLib.tagLinkService.clearCache()
@@ -95,7 +109,7 @@ class HeaderFooterTagLibSpec extends Specification {
 
     void "test loginLogout with no login session or cookie"() {
         given:
-        def expected = "<a href='https://example.com/cas/login?service=https://example.com/a-test-page' class='test-css-class'>Log in</a>"
+        def expected = "<a href='https://example.com/cas/login?service=https://bie.ala.org.au/a-test-page' class='btn btn-primary btn-sm test-css-class'>Login</a>"
         def forwardUri = '/a-test-page'
 
         when:

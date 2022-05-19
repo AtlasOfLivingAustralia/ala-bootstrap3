@@ -1,6 +1,6 @@
 language: groovy
 jdk:
-- openjdk8
+- openjdk11
 sudo: false
 branches:
   only:
@@ -8,6 +8,7 @@ branches:
   - hotfix
   - 2016design
   - grails3
+  - grails4
   - pivotal
   - develop
   - /^feature.*$/
@@ -24,5 +25,6 @@ after_success:
 
 env:
   global:
+  - JAVA_TOOL_OPTIONS=-Dhttps.protocols=TLSv1.2
   - secure: Z5AvuNqq+rShuYsJ8JrkXUBHrM/VyAnSbAe6OOMf/Um+u9LGoIb8YFMj4IYWQHf7c4k7MiW2gA46DgGe5I4SHLigxEcg9RC6oZBmw9C2Yl39JuhLxkuG9BNQWSvdoD5yh6Ce16artZOxUpaE3A86/oWBViLjBohXVZXqjhozFj0=
   - secure: GttlChheLdvfF+v195ve77TvWp+TOpDfM/gN3pw+JKhmnICu9j6qPCV1UhmjSxX5dDcS3cno75aTik1oJSwa7zIJwrKG00eWB6sNwJv6XjJShnMx/CcXpGPHGYb/dubGD5a5Fp08SC8AyQ5175rPE6zgruTXrifxWMAgk430DUE=

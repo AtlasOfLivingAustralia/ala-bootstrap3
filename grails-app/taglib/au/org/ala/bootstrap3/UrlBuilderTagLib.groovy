@@ -83,7 +83,7 @@ class UrlBuilderTagLib {
         final vars = attrsMap.remove('vars') as Map<String, ?>
         final fragment = attrsMap.remove('fragment') as String
 
-        def recognisedPaths = paths instanceof Collection ? (paths?.toList() ?: []) : [paths]
+        def recognisedPaths = paths instanceof Collection ? (paths?.toList() ?: []) : paths != null ? [paths] : []
         return tagLinkService.buildUri(base, recognisedPaths, params, fragment, vars)
     }
 }

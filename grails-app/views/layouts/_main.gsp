@@ -20,7 +20,7 @@
               media="screen,print"/>
     </g:if>
 
-    <g:set var="hfVersion" value="${grailsApplication.config.getProperty('headerAndFooter.version', Integer, 1)}" />
+    <g:set var="hfVersion" value="${grailsApplication.config.getProperty('headerAndFooter.version', Integer, 2)}" />
 
     <g:if test="${hfVersion == 1}">
         <asset:stylesheet src="${pageProperty(name: 'meta.head-css') ?: "core"}"/>
