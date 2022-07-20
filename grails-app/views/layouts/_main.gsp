@@ -4,19 +4,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="app.version" content="${g.meta(name:'info.app.version')}"/>
     <meta name="app.build" content="${g.meta(name:'info.app.build')}"/>
-    <meta name="description" content="${grailsApplication.config.skin?.orgNameLong?:'Atlas of Living Australia'}"/>
-    <meta name="author" content="${grailsApplication.config.skin?.orgNameLong?:'Atlas of Living Australia'}">
+    <meta name="description" content="${grailsApplication.config.getProperty('skin.orgNameLong')?:'Atlas of Living Australia'}"/>
+    <meta name="author" content="${grailsApplication.config.getProperty('skin.orgNameLong')?:'Atlas of Living Australia'}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
-    <link href="${grailsApplication.config.skin.favicon}" rel="shortcut icon"  type="image/x-icon"/>
+    <link href="${grailsApplication.config.getProperty('skin.favicon')}" rel="shortcut icon"  type="image/x-icon"/>
 
     <title><g:layoutTitle /></title>
-    <g:if test="${!grailsApplication.config.headerAndFooter.excludeBootstrapCss}">
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/bootstrap-theme.min.css" rel="stylesheet" media="screen,print"/>
+    <g:if test="${!grailsApplication.config.getProperty('headerAndFooter.excludeBootstrapCss')}">
+        <link href="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/css/bootstrap-theme.min.css" rel="stylesheet" media="screen,print"/>
     </g:if>
-    <g:if test="${!grailsApplication.config.headerAndFooter.excludeAlaStylesCss}">
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/ala-styles.css" rel="stylesheet"
+    <g:if test="${!grailsApplication.config.getProperty('headerAndFooter.excludeAlaStylesCss')}">
+        <link href="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/css/ala-styles.css" rel="stylesheet"
               media="screen,print"/>
     </g:if>
 
@@ -28,9 +28,9 @@
                           media="screen,print"/>
     </g:if>
     <g:elseif test="${hfVersion == 2}">
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete.min.css" rel="stylesheet" media="screen,print"/>
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/autocomplete-extra.min.css" rel="stylesheet" media="screen,print"/>
-        <link href="${grailsApplication.config.headerAndFooter.baseURL}/css/font-awesome.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/css/autocomplete.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/css/autocomplete-extra.min.css" rel="stylesheet" media="screen,print"/>
+        <link href="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/css/font-awesome.min.css" rel="stylesheet" media="screen,print"/>
     </g:elseif>
 
 
@@ -42,20 +42,20 @@
     </g:if>
     <g:elseif test="${hfVersion == 2}">
         <script type="text/javascript"
-                src="${grailsApplication.config.headerAndFooter.baseURL}/js/jquery.min.js"></script>
+                src="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/js/jquery.min.js"></script>
         <script type="text/javascript"
-                src="${grailsApplication.config.headerAndFooter.baseURL}/js/jquery-migration.min.js"></script>
+                src="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/js/jquery-migration.min.js"></script>
         <script type="text/javascript"
-                src="${grailsApplication.config.headerAndFooter.baseURL}/js/autocomplete.min.js"></script>
+                src="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/js/autocomplete.min.js"></script>
     </g:elseif>
 
-    <g:if test="${!grailsApplication.config.headerAndFooter.excludeApplicationJs}">
-        <script type="text/javascript" src="${grailsApplication.config.headerAndFooter.baseURL}/js/application.js"
+    <g:if test="${!grailsApplication.config.getProperty('headerAndFooter.excludeApplicationJs')}">
+        <script type="text/javascript" src="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/js/application.js"
                 defer></script>
     </g:if>
-    <g:if test="${!grailsApplication.config.headerAndFooter.excludeBootstrapJs}">
+    <g:if test="${!grailsApplication.config.getProperty('headerAndFooter.excludeBootstrapJs')}">
         <script type="text/javascript"
-                src="${grailsApplication.config.headerAndFooter.baseURL}/js/bootstrap.min.js"></script>
+                src="${grailsApplication.config.getProperty('headerAndFooter.baseURL')}/js/bootstrap.min.js"></script>
     </g:if>
     <g:layoutHead />
     <hf:head/>
@@ -65,7 +65,7 @@
 <g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.getProperty('skin.fluidLayout', Boolean, false)}"/>
 <!-- Header -->
 <hf:banner logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
-           ignoreCookie="${grailsApplication.config.ignoreCookie}" fluidLayout="${grailsApplication.config.fluidLayout}"/>
+           ignoreCookie="${grailsApplication.config.getProperty('ignoreCookie', Boolean, false)}" fluidLayout="${grailsApplication.config.getProperty('skin.fluidLayout', Boolean, false)}"/>
 <!-- End header -->
 <g:if test="${!pageProperty(name:'meta.hideBreadcrumb')}">
     <!-- Breadcrumb -->
@@ -77,7 +77,7 @@
             <div class="row">
                 <nav aria-label="Breadcrumb" role="navigation">
                     <ol class="breadcrumb-list">
-                        <li><a href="${grailsApplication.config.skin?.homeUrl?:'https://www.ala.org.au'}"><g:message code="breadcrumb.home" default="Home"/></a></li>
+                        <li><a href="${grailsApplication.config.getProperty('skin.homeUrl')?:'https://www.ala.org.au'}"><g:message code="breadcrumb.home" default="Home"/></a></li>
                         <g:if test="${breadcrumbParent}">
                             <g:set value="${breadcrumbParent.tokenize(',')}" var="parentArray"/>
                             <li><a href="${parentArray[0]}">${parentArray[1]}</a></li>
@@ -108,7 +108,7 @@
 </div><!-- End container #main col -->
 
 <hf:footer logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
-           ignoreCookie="${grailsApplication.config.ignoreCookie}"/>
+           ignoreCookie="${grailsApplication.config.getProperty('ignoreCookie', Boolean, false)}"/>
 
 <asset:deferredScripts/>
 

@@ -1,8 +1,6 @@
 package au.org.ala.bootstrap3
 
 import grails.plugins.*
-import grails.util.Holders
-import org.springframework.core.env.MapPropertySource
 
 class AlaBootstrap3GrailsPlugin extends Plugin {
 
