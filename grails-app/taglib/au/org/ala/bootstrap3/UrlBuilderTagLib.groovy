@@ -78,7 +78,7 @@ class UrlBuilderTagLib {
         final baseProperty = attrsMap.remove('baseProperty') as String
         final base = baseProperty ? grailsApplication.config.getProperty(baseProperty) : attrsMap.remove('base') as String
         final pathsProperty = attrsMap.remove('pathsProperty')
-        final paths = pathsProperty ? grailsApplication.config.getProperty(pathsProperty) : attrsMap.remove('paths')
+        final paths = pathsProperty ? grailsApplication.config.getProperty(pathsProperty, Object) : attrsMap.remove('paths')
         final params = attrsMap.remove('params') as Map<String, ?>
         final vars = attrsMap.remove('vars') as Map<String, ?>
         final fragment = attrsMap.remove('fragment') as String
