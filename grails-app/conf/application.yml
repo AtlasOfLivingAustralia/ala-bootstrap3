@@ -8,3 +8,6 @@ info:
         name: '@info.app.name@'
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
+
+fathom:
+    site-id: 'TZHQTOVF'

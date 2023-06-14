@@ -45,6 +45,8 @@ class TagLinkService {
     String headerAndFooterVersion = "2"
     @Value('${security.oidc.enabled:false}')
     Boolean isOidc = false
+    @Value('${fathom.site-id}')
+    String fathomSiteId
 
     @Autowired
     LinkGenerator grailsLinkGenerator
@@ -315,6 +317,7 @@ class TagLinkService {
         content = content.replace('::myProfileURL::', encodeOutput(buildMyProfileLink(request, attrs)))
         content = content.replace('::editAccountLink::', encodeOutput(buildEditAccountLink(request, attrs)))
         content = content.replace('::loginStatus::', signedInOutClass)
+        content = content.replace('::fathomID::', fathomSiteId)
 
         return content
     }

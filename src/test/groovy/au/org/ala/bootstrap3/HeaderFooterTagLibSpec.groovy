@@ -94,6 +94,18 @@ class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<Hea
         result.startsWith(expected) || result.startsWith(' ' + expected)
     }
 
+    void "test fathomId substitution" () {
+        given:
+        tagLib.tagLinkService.hfCache['footer'].content = "::fathomID::"
+        tagLib.tagLinkService.hfCache['footer'].timestamp = new Date().time
+
+        when:
+        def result = tagLib.footer()
+
+        then:
+        result == grailsApplication.config.getProperty('fathom.site-id')
+    }
+
     void "test head"() {
         given:
         def expected = '<!-- head -->'
