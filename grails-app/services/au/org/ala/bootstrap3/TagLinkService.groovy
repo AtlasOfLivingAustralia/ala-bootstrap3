@@ -317,7 +317,7 @@ class TagLinkService {
         content = content.replace('::myProfileURL::', encodeOutput(buildMyProfileLink(request, attrs)))
         content = content.replace('::editAccountLink::', encodeOutput(buildEditAccountLink(request, attrs)))
         content = content.replace('::loginStatus::', signedInOutClass)
-        content = content.replace('::fathomID::', fathomSiteId)
+        content = content.replace('::fathomID::', attrs?.fathomSiteId ?: fathomSiteId)
 
         return content
     }
