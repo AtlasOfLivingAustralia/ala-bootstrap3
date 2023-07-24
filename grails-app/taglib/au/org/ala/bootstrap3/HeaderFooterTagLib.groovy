@@ -103,6 +103,15 @@ class HeaderFooterTagLib {
         out << tagLinkService.buildLoginLink(request, attrs)
     }
 
+    def nagger = { attrs, body ->
+        if (request.userPrincipal && !request.userPrincipal.contains('affiliation')) {
+            if (!session['shownAffiliation']) {
+                session['shownAffiliation'] = true
+                out << body()
+            }
+        }
+    }
+
     /*
      * This g:paginate tag fix is based on:
      * https://github.com/grails/grails-core/blob/master/grails-plugin-gsp/src/main/groovy/org/codehaus/groovy/grails/plugins/web/taglib/RenderTagLib.groovy

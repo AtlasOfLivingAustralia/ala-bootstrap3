@@ -63,6 +63,32 @@
 </head>
 <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 <g:set var="fluidLayout" value="${pageProperty(name:'meta.fluidLayout')?:grailsApplication.config.getProperty('skin.fluidLayout', Boolean, false)}"/>
+<%-- Nag Banner --%>
+<hf:nagger>
+<div id="overlay">
+    <div id="nag-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">A moment please?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Welcome to the ALA.  We like to harvest all your personal data for our nefarious purposes.  Please go to our profile page and add your country and affiliation to never see this pop up again!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <asset:script type="text/javascript">
+    $(document).ready(function(){
+        $("#nag-modal").modal('show');
+    });
+    </asset:script>
+</div>
+</hf:nagger>
 <!-- Header -->
 <hf:banner logoutUrl="${g.createLink(controller: "logout", action: "logout", absolute: true)}"
            ignoreCookie="${grailsApplication.config.getProperty('ignoreCookie', Boolean, false)}" fluidLayout="${grailsApplication.config.getProperty('skin.fluidLayout', Boolean, false)}"/>
