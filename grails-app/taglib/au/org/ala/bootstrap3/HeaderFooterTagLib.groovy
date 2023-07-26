@@ -104,7 +104,7 @@ class HeaderFooterTagLib {
     }
 
     def nagger = { attrs, body ->
-        if (request.userPrincipal && !request.userPrincipal.contains('affiliation')) {
+        if (request.getAttribute('ala.affiliation-required')) {
             if (!session['shownAffiliation']) {
                 session['shownAffiliation'] = true
                 out << body()
