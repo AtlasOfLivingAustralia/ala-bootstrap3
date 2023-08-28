@@ -71,10 +71,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">A moment please?</h4>
+                    <h4 class="modal-title"><g:message message="survey.title"/></h4>
                 </div>
                 <div class="modal-body">
-                    <p>Welcome to the ALA.  We like to harvest all your personal data for our nefarious purposes.  Please go to our profile page and add your country and affiliation to never see this pop up again!</p>
+                    <p><g:message message="survey.p" args="[u.createLink(baseProperty:'userdetails.url', pathsProperty: 'userdetails.profilePath')]"/></p>
+                    <p><g:message message="survey.p2" /></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
