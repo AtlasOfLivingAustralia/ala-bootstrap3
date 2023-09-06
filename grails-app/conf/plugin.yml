@@ -5,3 +5,7 @@ grails:
 
 headerAndFooter:
     baseURL: https://www.ala.org.au/commonui-bs3
+
+userdetails:
+    url: https://auth.ala.org.au/userdetails/
+    profilePath: myprofile
