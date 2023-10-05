@@ -78,7 +78,7 @@
                     <p><g:message message="survey.p2" /></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = '${u.createLink(baseProperty:'userdetails.url', pathsProperty: 'userdetails.profilePath')}'">OK</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
