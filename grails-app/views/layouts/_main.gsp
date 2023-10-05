@@ -74,7 +74,7 @@
                     <h4 class="modal-title"><g:message message="survey.title"/></h4>
                 </div>
                 <div class="modal-body">
-                    <p><g:message message="survey.p" args="[u.createLink(baseProperty:'userdetails.url', pathsProperty: 'userdetails.profilePath')]"/></p>
+                    <p><g:message code="survey.p" args="[u.createLink(baseProperty:'userdetails.url', pathsProperty: 'userdetails.profilePath')]"/></p>
                     <p><g:message message="survey.p2" /></p>
                 </div>
                 <div class="modal-footer">
