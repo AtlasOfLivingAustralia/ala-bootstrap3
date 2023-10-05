@@ -31,8 +31,8 @@ class TagLinkService {
     String grailServerURL = "http://bie.ala.org.au"
     @Value('${bie.searchPath:https://bie.ala.org.au}')
     String bieSearchPath = "/search"
-    @Value('${headerAndFooter.baseURL:https://www.ala.org.au/commonui-bs3}')
-    String headerAndFooterBaseURL = "https://www.ala.org.au/commonui-bs3"
+    @Value('${headerAndFooter.baseURL:https://www.ala.org.au/commonui-bs3-2019}')
+    String headerAndFooterBaseURL = "https://www.ala.org.au/commonui-bs3-2019"
     @Value('${userDetails.url:https://auth.ala.org.au/userdetails}')
     String userDetailsServerUrl = "https://auth.ala.org.au/userdetails"
     @Value('${security.cas.loginUrl:https://auth.ala.org.au/cas/login}')
