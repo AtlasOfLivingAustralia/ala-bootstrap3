@@ -74,11 +74,11 @@
                     <h4 class="modal-title"><g:message message="survey.title"/></h4>
                 </div>
                 <div class="modal-body">
-                    <p><g:message code="survey.p" args="[u.createLink(baseProperty:'userdetails.url', pathsProperty: 'userdetails.profilePath')]"/></p>
+                    <p><g:message code="survey.p" args="[u.createLink(baseProperty:'userDetails.url', pathsProperty: 'userdetails.profilePath')]"/></p>
                     <p><g:message message="survey.p2" /></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.href = '${u.createLink(baseProperty:'userdetails.url', pathsProperty: 'userdetails.profilePath')}'">OK</button>
+                    <a role="button" data-dismiss="modal" href="${u.createLink(baseProperty:'userDetails.url', pathsProperty: 'userdetails.profilePath')}">OK</a>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
