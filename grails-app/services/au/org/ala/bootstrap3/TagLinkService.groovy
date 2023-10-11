@@ -33,7 +33,7 @@ class TagLinkService {
     String bieSearchPath = "/search"
     @Value('${headerAndFooter.baseURL:https://www.ala.org.au/commonui-bs3-2019}')
     String headerAndFooterBaseURL = "https://www.ala.org.au/commonui-bs3-2019"
-    @Value('${userDetails.url:https://auth.ala.org.au/userdetails}')
+    @Value('${userdetails.web.url:https://auth.ala.org.au/userdetails}')
     String userDetailsServerUrl = "https://auth.ala.org.au/userdetails"
     @Value('${security.cas.loginUrl:https://auth.ala.org.au/cas/login}')
     String casLoginUrl = "https://auth.ala.org.au/cas/login"

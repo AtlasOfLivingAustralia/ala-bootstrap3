@@ -22,7 +22,7 @@ class UrlBuilderTagLib {
     /**
      * General linking to URLs based on a base URL etc. Examples:<br/>
      *
-     * &lt;u:link baseProperty="userDetails.url" paths="['myprofile']"&gt;link 1&lt;/u:link&gt;<br/>
+     * &lt;u:link baseProperty="userdetails.web.url" paths="['myprofile']"&gt;link 1&lt;/u:link&gt;<br/>
      * &lt;u:link base="https://example.org/{id}/{page}" vars="[id: 'username', page: 'contact']"&gt;link 2&lt;/u:link&gt;<br/>
      *
      * @attr baseProperty the Grails Config property to get the base url from
@@ -60,7 +60,7 @@ class UrlBuilderTagLib {
      * link can then be included in links, ajax calls etc. Generally used as a method call
      * rather than a tag eg.<br/>
      *
-     * &lt;a href="${u.createLink(baseProperty:'userDetails.url')}"&gt;UserDetails&lt;/a&gt;
+     * &lt;a href="${u.createLink(baseProperty:'userdetails.web.url')}"&gt;UserDetails&lt;/a&gt;
      *
      * @emptyTag
      *
