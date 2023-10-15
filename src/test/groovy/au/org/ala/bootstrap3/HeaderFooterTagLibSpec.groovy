@@ -108,7 +108,7 @@ class HeaderFooterTagLibSpec extends Specification implements TagLibUnitTest<Hea
 
     void "test head"() {
         given:
-        def expected = '<!-- head -->'
+        def expected = '<!-- empty file -->' //not used anymore
 
         when:
         def result = tagLib.head()
