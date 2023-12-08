@@ -4,7 +4,7 @@ grails:
             fixtaglib: true
 
 headerAndFooter:
-    baseURL: https://www.ala.org.au/commonui-bs3-2019
+    baseURL: http://localhost:8080/commonui-bs3-2019
 
 userdetails:
     url: https://auth.ala.org.au/userdetails/
