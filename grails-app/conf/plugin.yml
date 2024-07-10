@@ -5,6 +5,9 @@ grails:
 
 headerAndFooter:
     baseURL: https://www.ala.org.au/commonui-bs3-2019
+    # injects into the header a challenge.js script
+    # <script type="text/javascript" src="challengeJsUrl" defer></script>
+    challengeJsUrl:
 
 userdetails:
     url: https://auth.ala.org.au/userdetails/
